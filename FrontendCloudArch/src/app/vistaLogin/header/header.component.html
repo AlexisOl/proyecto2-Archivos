@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+
+  <button  mat-button (click)="irInicio()">
+    <span>Cloud Arch</span>
+  </button>
+  <span class="example-spacer"></span>
+
+
+  <button mat-button [matMenuTriggerFor]="fileMenu">Ingreso Usuario</button>
+  <mat-menu #fileMenu="matMenu">
+    <button  mat-menu-item (click)="iraLogin()">ingreso</button>
+  </mat-menu>
+</mat-toolbar>
