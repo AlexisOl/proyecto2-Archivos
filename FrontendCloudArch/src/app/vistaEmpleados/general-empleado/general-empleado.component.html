@@ -1,1 +1,24 @@
-<p>general-empleado works!</p>
+<app-header-empleado></app-header-empleado>
+<!--GENERALIDAD-->
+<mat-sidenav-container class="example-container">
+  <mat-sidenav-content>
+    <div class="col-md-6 offset-md-3">
+      <div class="content mat-elevation-z8 justify-content-center">
+        <button (click)="openDialog()" mat-raised-button color="primary">
+          Creacion de Archivo
+        </button>
+
+        <div *ngIf="ingresoModal == true">
+          <ngx-codemirror
+            [(ngModel)]="content"
+            [options]="{
+              lineNumbers: true,
+              theme: 'material',
+              mode: 'markdown'
+            }"
+          ></ngx-codemirror>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

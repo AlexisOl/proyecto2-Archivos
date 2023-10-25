@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './utils/footer/footer.component';
@@ -20,7 +19,11 @@ import { GeneralEmpleadoComponent } from './vistaEmpleados/general-empleado/gene
 import { GeneralAdminComponent } from './vistaAdministrador/general-admin/general-admin.component';
 import { MatCardModule } from '@angular/material/card';
 import {MatBadgeModule} from '@angular/material/badge';
-
+import {MatDialogModule} from '@angular/material/dialog';
+import { HeaderEmpleadoComponent } from './vistaEmpleados/header-empleado/header-empleado.component';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { CreacionArchivoComponent } from './vistaEmpleados/creacion-archivo/creacion-archivo.component';
+import {MatSelectModule} from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,12 +32,15 @@ import {MatBadgeModule} from '@angular/material/badge';
     VistaGeneralComponent,
     HeaderComponent,
     GeneralEmpleadoComponent,
-    GeneralAdminComponent
+    GeneralAdminComponent,
+    HeaderEmpleadoComponent,
+    CreacionArchivoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    CodemirrorModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -44,7 +50,9 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatSidenavModule,
     NgbModule,
     MatCardModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

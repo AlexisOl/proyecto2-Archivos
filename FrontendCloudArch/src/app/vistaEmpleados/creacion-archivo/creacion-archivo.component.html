@@ -1,0 +1,67 @@
+
+  <h1 class="justify-content-center">Creacion del Archivo</h1>
+
+  <form #f = "ngForm" (ngSubmit)="ingresoProducto(f)">
+  <div #ingresoCliente>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label
+          for="nombre"
+          class="mt-5 d-flex justify-content-center"
+        >
+          Nombre del Archivo
+        </label>
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Código de Producto en Bodega"
+          name="ProductoBodega"
+        />
+      </div>
+      <div class="col-md-6">
+        <label
+          for="nombre"
+          class="mt-5 d-flex justify-content-center"
+        >
+          Extension del Archivo
+        </label>
+        <mat-form-field>
+          <mat-label>Seleccione la extension</mat-label>
+          <mat-select [(ngModel)]="selectedValue" name="food">
+            <mat-option *ngFor="let food of foods" [value]="food">
+              {{food}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+<hr>
+  <div>
+    <ngx-codemirror
+    [(ngModel)]="content"
+    [options]="{
+      lineNumbers: true,
+      theme: 'material',
+      mode: 'markdown'
+    }"
+  ></ngx-codemirror>
+  </div>
+</form>
+
+
+  <!--Para botonoes-->
+
+<hr/>
+  <div class="row">
+    <div class="col-md-6">
+      <button  mat-raised-button color="primary">Crear</button>
+
+    </div>
+    <div class="col-md-6">
+      <button  class="btn btn-warning" (click)="cerrar()">Cancelar</button>
+
+    </div>
+  </div>
+

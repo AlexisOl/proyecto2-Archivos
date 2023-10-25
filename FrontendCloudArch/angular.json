@@ -21,6 +21,11 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor",
+                "output": "assets/monaco-editor"
+              },
               "src/favicon.ico",
               "src/assets"
             ],
@@ -28,11 +33,13 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/theme.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-
+              "node_modules/codemirror/lib/codemirror.css",
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/codemirror/lib/codemirror.js",
+              "node_modules/codemirror/mode/javascript/javascript.js"
           ]
           },
           "configurations": {
