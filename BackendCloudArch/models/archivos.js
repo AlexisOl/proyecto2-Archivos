@@ -5,8 +5,8 @@ const { Schema, model } = require ("mongoose");
 const archivos = new Schema(
   {
     nombre: String,
-    contenido:string,
-    extension: string
+    contenido:String,
+    extension: String
   },
   {
     timestamps: false,

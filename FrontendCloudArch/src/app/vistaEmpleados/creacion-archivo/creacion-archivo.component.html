@@ -1,7 +1,7 @@
 
   <h1 class="justify-content-center">Creacion del Archivo</h1>
 
-  <form #f = "ngForm" (ngSubmit)="ingresoProducto(f)">
+  <form  class="form-container" #f = "ngForm">
   <div #ingresoCliente>
 
     <div class="row">
@@ -17,6 +17,7 @@
           class="form-control mt-2"
           placeholder="Código de Producto en Bodega"
           name="ProductoBodega"
+          [(ngModel)]="nombre"
         />
       </div>
       <div class="col-md-6">
@@ -41,6 +42,7 @@
   <div>
     <ngx-codemirror
     [(ngModel)]="content"
+    name="content"
     [options]="{
       lineNumbers: true,
       theme: 'material',
@@ -56,7 +58,7 @@
 <hr/>
   <div class="row">
     <div class="col-md-6">
-      <button  mat-raised-button color="primary">Crear</button>
+      <button  mat-raised-button color="primary" (click)="enviarInfo()">Crear</button>
 
     </div>
     <div class="col-md-6">

@@ -6,8 +6,8 @@
   <span class="example-spacer"></span>
 
 
-  <button mat-button [matMenuTriggerFor]="fileMenu">Ingreso Usuario</button>
+  <button mat-button [matMenuTriggerFor]="fileMenu">{{this.nombreUsuario}}</button>
   <mat-menu #fileMenu="matMenu">
-    <button  mat-menu-item >ingreso</button>
+    <button  mat-menu-item (click)="cerrarSesion()">Cerrar Sesion</button>
   </mat-menu>
 </mat-toolbar>

@@ -1,24 +1,135 @@
 <app-header-empleado></app-header-empleado>
 <!--GENERALIDAD-->
-<mat-sidenav-container class="example-container">
-  <mat-sidenav-content>
-    <div class="col-md-6 offset-md-3">
-      <div class="content mat-elevation-z8 justify-content-center">
-        <button (click)="openDialog()" mat-raised-button color="primary">
-          Creacion de Archivo
-        </button>
 
-        <div *ngIf="ingresoModal == true">
-          <ngx-codemirror
-            [(ngModel)]="content"
-            [options]="{
-              lineNumbers: true,
-              theme: 'material',
-              mode: 'markdown'
-            }"
-          ></ngx-codemirror>
+<div class="container">
+  <form class="form-container" #f = "ngForm">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Vista General</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Nombre de Usuario
+            </label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="identificador de Sucursal"
+              name="nombreUsuario"
+              [(ngModel)]="nombreUsuario"
+              readonly
+            />
+          </div>
+          <div class="col-md-6">
+
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+        </div>
+        <hr/>
+
+        <div class="row">
+          <div class="col-md-6">
+
+            <button (click)="openDialog()" mat-raised-button color="primary">
+              Creacion de Archivo
+            </button>
+          </div>
+          <div class="col-md-6">
+            <button  mat-raised-button color="primary" >
+              Creacion de Carpeta
+            </button>
+          </div>
+        </div>
+        <hr/>
+
+      </mat-card-content>
+
+
+    </mat-card>
+  </form>
+</div>
+<!--PARA MOSTRAR OTRA INFO -- agregar boton regreso, hasta 1, hacer el split en base al directorio-->
+<!--para los archivos-->
+<div class="container">
+  <mat-drawer-container
+[autosize]="true"
+class="min-h-full max-w-7xl mx-auto border-x">
+  <mat-drawer mode="side" opened class="p-6">
+    <div>Busquedas Especificas</div>
+  </mat-drawer>
+</mat-drawer-container>
+
+  <div class="container">
+    <div class="row">
+      <div class="cl-md-10">
+        <div class="titulo">
+          <h1>Archivos</h1>
         </div>
       </div>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+          <div class="col-md-3" *ngFor="let archivo of arhivos">
+            <mat-card [style.height.%]="100" class="mat-elevation-z4 text-center">
+              <mat-card-header>
+                <mat-card-title>{{archivo.nombre}}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div>
+                  <p class="truncate hover:whitespace-normal">{{archivo.contenido}}</p>
+                  <p>A-{{archivo.extension}}</p>
+                </div>
+                <div class="justify-between flex">
+                <button mat-raised-button color="primary">Ver Elemento</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+</div>
+
+<!--FIN DE ARCHIVOS-->
+
+<div class="container">
+
+        <div class="row">
+          <div class="col-md-6">
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Directorio Actual
+            </label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="identificador de Sucursal"
+              name="nombreUsuario"
+              [(ngModel)]="nombreUsuario"
+              readonly
+            />
+          </div>
+
+        </div>
+        <hr/>
+        <mat-card class="example-card">
+          <mat-card-content>
+            <hr />
+        <div class="row">
+          <div class="col-md-6">
+
+            <button (click)="openDialog()" mat-raised-button color="primary">
+              Creacion de Archivo
+            </button>
+          </div>
+        </div>
+        <hr/>
+      </mat-card-content>
+    </mat-card>
+</div>
+
+
+
+
+

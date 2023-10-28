@@ -9,7 +9,8 @@ const crearUsuario = async(req, res) => {
     const insertarUsuario = new usuario (
         {
             nombre: req.body.nombre,
-            password: req.body.password
+            password: req.body.password,
+            rol: req.body.rol
         }
     )
 
@@ -20,8 +21,21 @@ const crearUsuario = async(req, res) => {
 
 //funcion para obtener a los usuarios 
 const obtenerUsuario = async(req, res) => {
-    const usuarioFinal = await usuario.find();
-    res.json(usuarioFinal);
+    const {nombre, password} = req.query;
+
+
+    console.log(nombre, password);
+    const usuarioFinal = await usuario.findOne({
+        nombre: nombre,
+        password: password
+    });
+    if (usuarioFinal) {
+        res.json(usuarioFinal);
+
+    } else {
+        res.json({error: "no se pudo encontrar"});
+
+    }
 }
 
 module.exports = {

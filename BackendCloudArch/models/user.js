@@ -5,7 +5,8 @@ const { Schema, model } = require ("mongoose");
 const prueba = new Schema(
   {
     nombre: String,
-    password: String
+    password: String,
+    rol: Number
   },
   {
     timestamps: false,
