@@ -1,11 +1,16 @@
 <mat-toolbar color="primary">
 
-  <button  mat-button >
+  <button  mat-button
+    (click)="inicio()" >
     <span>Cloud Arch</span>
   </button>
   <span class="example-spacer"></span>
 
-
+  <button  mat-button
+    (click)="inicio()" >
+    <span>Cambio de Contrasenia</span>
+  </button>
+  <span class="example-spacer"></span>
   <button mat-button [matMenuTriggerFor]="fileMenu">{{this.nombreUsuario}}</button>
   <mat-menu #fileMenu="matMenu">
     <button  mat-menu-item (click)="cerrarSesion()">Cerrar Sesion</button>

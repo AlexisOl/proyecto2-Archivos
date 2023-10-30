@@ -24,6 +24,8 @@ import { HeaderEmpleadoComponent } from './vistaEmpleados/header-empleado/header
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { CreacionArchivoComponent } from './vistaEmpleados/creacion-archivo/creacion-archivo.component';
 import {MatSelectModule} from '@angular/material/select';
+import { CreacionCarpetaComponent } from './vistaEmpleados/creacion-carpeta/creacion-carpeta.component';
+import { VistaEspecificaArchivosComponent } from './vistaEmpleados/vista-especifica-archivos/vista-especifica-archivos.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,9 @@ import {MatSelectModule} from '@angular/material/select';
     GeneralEmpleadoComponent,
     GeneralAdminComponent,
     HeaderEmpleadoComponent,
-    CreacionArchivoComponent
+    CreacionArchivoComponent,
+    CreacionCarpetaComponent,
+    VistaEspecificaArchivosComponent
   ],
   imports: [
     BrowserModule,

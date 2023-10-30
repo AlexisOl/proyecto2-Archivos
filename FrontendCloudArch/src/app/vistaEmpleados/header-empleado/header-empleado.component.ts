@@ -13,6 +13,11 @@ export class HeaderEmpleadoComponent implements OnInit{
   constructor(private sesion: SesionServiceService,
               private router: Router){}
 
+
+  inicio(){
+    this.router.navigate(['./generalEmpleado'])
+
+  }
   cerrarSesion(){
     this.sesion.eliminarUsuario();
     this.router.navigate(['./inicio'])

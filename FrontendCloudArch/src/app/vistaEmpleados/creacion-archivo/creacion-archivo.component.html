@@ -30,8 +30,8 @@
         <mat-form-field>
           <mat-label>Seleccione la extension</mat-label>
           <mat-select [(ngModel)]="selectedValue" name="food">
-            <mat-option *ngFor="let food of foods" [value]="food">
-              {{food}}
+            <mat-option *ngFor="let extension of extensiones" [value]="extension">
+              {{extension}}
             </mat-option>
           </mat-select>
         </mat-form-field>

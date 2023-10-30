@@ -6,7 +6,9 @@ const archivos = new Schema(
   {
     nombre: String,
     contenido:String,
-    extension: String
+    extension: String,
+    ubicacion: String,
+    usuario:String
   },
   {
     timestamps: false,
