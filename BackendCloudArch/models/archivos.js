@@ -8,7 +8,8 @@ const archivos = new Schema(
     contenido:String,
     extension: String,
     ubicacion: String,
-    usuario:String
+    usuario:String,
+    cantidadCopiado:String
   },
   {
     timestamps: false,

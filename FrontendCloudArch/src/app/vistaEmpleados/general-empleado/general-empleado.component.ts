@@ -67,6 +67,11 @@ export class GeneralEmpleadoComponent implements OnInit {
   //funcion  de recargo de archivos
   // FUTURO AGREGAR CARPETAS
 
+  recargosGenerales(){
+    this.recargoArchiovs();
+    this.recargoCarpetas();
+  }
+
   recargoArchiovs(){
 
     this.empleadosService.obtenerArchivosDirectorio(this.directorioActual, this.nombreUsuario).subscribe(
@@ -74,6 +79,14 @@ export class GeneralEmpleadoComponent implements OnInit {
         this.arhivos = archivosNuevos;
       }
     );
+  }
+
+  recargoCarpetas(){
+    this.empleadosService.obtenerCarpetasConDirectorio(this.directorioActual, this.nombreUsuario).subscribe(
+      (carpetasActualizadas) => {
+        this.carpetas = carpetasActualizadas;
+      }
+    )
   }
 
 
@@ -93,7 +106,8 @@ export class GeneralEmpleadoComponent implements OnInit {
 
       this.directorioActual = nuevoDirectorio;
       this.carpetasServicio.eliminarParteRuta();
-      this.recargoArchiovs();
+      //recargo de elementos
+      this.recargosGenerales();
     }
 
   }
@@ -117,16 +131,22 @@ export class GeneralEmpleadoComponent implements OnInit {
 
     this.directorioActual = textoFinalCarpetas;
     console.log("aa"+this.directorioActual);
-    this.empleadosService.obtenerArchivosDirectorio(this.directorioActual, this.nombreUsuario).subscribe(
-      (archivosNuevos) => {
-        this.arhivos = archivosNuevos;
-        console.log(archivosNuevos);
+    this.recargosGenerales();
+  }
+
+  //--------------------------------------------
+  //--------------------------------------------
+  //--------------------------------------------
+  //--------------------------------------------
+  //funcion para copiar archivo
+  copiarArchivo(archivo:archivos){
+    this.empleadosService.copiarArchivo(archivo,this.directorioActual).subscribe(
+      (copiado:any) => {
+        console.log(copiado);
 
       }
     )
   }
-
-
   //--------------------------------------------
   //--------------------------------------------
   //--------------------------------------------
@@ -157,20 +177,15 @@ console.log(elemento);
     this.nombreUsuario = this.sesion.getUsuario()?.nombre;
 
 
-    // ver archivos de usuario
-    this.empleadosService.obtenerArchivos().subscribe((elemento) => {
-      this.arhivos = elemento;
-    });
-
-    // ver carpetas de usuario
-    this.empleadosService.obtenerCarpetas().subscribe((carpeta) => {
-      this.carpetas=carpeta;
-    })
-
     // ver ruta de usaurio
     const ruta = this.carpetasServicio.getRuta();
-    this.nombreDirectorio = ruta.join('/');
+    this.nombreDirectorio = ruta+"/";
+    console.log(this.nombreDirectorio);
+
     this.directorioActual = this.nombreDirectorio;
+
+    this.recargosGenerales();
+
     console.log(this.directorioActual);
   }
 

@@ -4,4 +4,5 @@ export class archivos {
   extension!: string
   ubicacion!:string
   usuario!:string|undefined
+  cantidadCopiado!:string
 }

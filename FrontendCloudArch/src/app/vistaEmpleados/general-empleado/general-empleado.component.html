@@ -65,14 +65,69 @@ class="min-h-full max-w-7xl mx-auto border-x">
     <div>Busquedas Especificas</div>
   </mat-drawer>
 </mat-drawer-container>
+<!--ESPACIO PARA MOSTRAR DIRECTORIO Y MOVIMIENTO
+---------------------------
+---------------------------
+---------------------------
+---------------------------
+-->
+<div class="container">
 
+
+  <mat-card class="example-card">
+    <mat-card-content>
+  <div class="row">
+
+    <div class="col-md-6">
+      <button
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+      (click)="retrocesoCarpetas()"
+    >
+      <span >
+        <mat-icon >keyboard_backspace</mat-icon>
+      </span>
+      </button>
+      <button
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+      (click)="recargosGenerales()"
+    >
+      <span >
+        <mat-icon >refresh</mat-icon>
+      </span>
+      </button>
+
+
+    </div>
+    <div class="col-md-6">
+      <label for="nombre" class="mt-5 d-flex justify-content-center">
+        Directorio Actual
+      </label>
+      <input
+        type="text"
+        class="form-control mt-2"
+        name="directorioActual"
+        [(ngModel)]="directorioActual"
+        readonly
+      />
+    </div>
+  </div>
+  <hr/>
+</mat-card-content>
+</mat-card>
+</div>
+  <hr/>
+
+
+<!--COMIENZO ARCHIVOS-->
   <div class="container">
     <div class="row">
       <div class="cl-md-10">
         <div class="titulo">
           <h1>Archivos</h1>
-          <h2><i class="bi bi-arrow-clockwise"></i></h2>
-
         </div>
       </div>
       <!--ESPACIO PARA ARCHIVOS
@@ -92,11 +147,18 @@ class="min-h-full max-w-7xl mx-auto border-x">
                   <p class="truncate hover:whitespace-normal">{{archivo.contenido}}</p>
                   <p>A-{{archivo.extension}}</p>
                 </div>
-                <div class="justify-between flex">
-                <button mat-raised-button color="primary"
-                (click)="actualizarArchivoModal(archivo)">
-                Ver Elemento</button>
+                <div class="justify-between flex" style="margin-bottom: 10px;">
+                  <button mat-raised-button color="primary" (click)="actualizarArchivoModal(archivo)">
+                    Ver Elemento
+                  </button>
                 </div>
+                <div class="justify-between flex">
+                  <button mat-raised-button color="accent"
+                  (click)="copiarArchivo(archivo)">
+                    Copiar
+                  </button>
+                </div>
+
               </mat-card-content>
             </mat-card>
           </div>
@@ -130,57 +192,6 @@ class="min-h-full max-w-7xl mx-auto border-x">
 </div>
 
 <!--FIN DE ARCHIVOS-->
-
-<div class="container">
-
-        <div class="row">
-          <div class="col-md-6">
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Directorio Actual
-            </label>
-            <input
-              type="text"
-              class="form-control mt-2"
-              name="directorioActual"
-              [(ngModel)]="directorioActual"
-              readonly
-            />
-          </div>
-
-        </div>
-        <hr/>
-        <mat-card class="example-card">
-          <mat-card-content>
-        <div class="row">
-          <div class="col-md-6">
-            <button
-            mat-icon-button
-            class="example-icon favorite-icon"
-            aria-label="Example icon-button with heart icon"
-            (click)="retrocesoCarpetas()"
-          >
-            <span >
-              <mat-icon >keyboard_backspace</mat-icon>
-            </span>
-            </button>
-            <button
-            mat-icon-button
-            class="example-icon favorite-icon"
-            aria-label="Example icon-button with heart icon"
-            (click)="recargoArchiovs()"
-          >
-            <span >
-              <mat-icon >refresh</mat-icon>
-            </span>
-            </button>
-
-
-          </div>
-        </div>
-        <hr/>
-      </mat-card-content>
-    </mat-card>
-</div>
 
 
 

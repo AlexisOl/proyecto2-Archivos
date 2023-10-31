@@ -66,5 +66,23 @@ export class EmpleadosServicioService {
   }
 
 
+  //funcion copiar archivo
+
+  public copiarArchivo(archivoParaCopiar:archivos, ubicacion:string ):Observable<archivos> {
+
+    const estructura = {
+      archivoParaCopiar,
+      ubicacion
+    }
+    return this.http.post<archivos>(this.URL+"copiarArchivo", estructura);
+  }
+
+  //funcion copiar directorios
+
+  public copiarDirectorio(){
+
+  }
+
+
 
 }
