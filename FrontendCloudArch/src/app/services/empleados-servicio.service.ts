@@ -79,10 +79,28 @@ export class EmpleadosServicioService {
 
   //funcion copiar directorios
 
-  public copiarDirectorio(){
+  public copiarDirectorio(carpetaParaCopiar:carpetas, ubicacion:string){
+    const estructura = {
+      carpetaParaCopiar,
+      ubicacion
+    };
+
+    return this.http.post<carpetas>(this.URL+"copiarCarpeta", estructura);
+
 
   }
 
+  //funcion para busacr elemenetos en general
+  public buscarElemento(nombreTexto:string|null) {
+    return this.http.get(this.URL+"buscarArchivos?texto="+ nombreTexto);
+  }
+
+
+  //funcion para eliminar archivos
+  public eliminarArchivo(archivo:archivos):Observable<any> {
+    return this.http.delete(this.URL+"eliminarArchivo?archivoEliminar="+archivo);
+  }
+  //funcion para eliminar carpetas
 
 
 }

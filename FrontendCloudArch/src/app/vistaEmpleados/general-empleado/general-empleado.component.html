@@ -26,7 +26,7 @@
           <div class="col-md-6">
 
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" >
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
         </div>
@@ -145,19 +145,28 @@ class="min-h-full max-w-7xl mx-auto border-x">
               <mat-card-content>
                 <div>
                   <p class="truncate hover:whitespace-normal">{{archivo.contenido}}</p>
-                  <p>A-{{archivo.extension}}</p>
+                  <p>EXTENSION->{{archivo.extension}}</p>
                 </div>
                 <div class="justify-between flex" style="margin-bottom: 10px;">
                   <button mat-raised-button color="primary" (click)="actualizarArchivoModal(archivo)">
                     Ver Elemento
                   </button>
                 </div>
-                <div class="justify-between flex">
-                  <button mat-raised-button color="accent"
-                  (click)="copiarArchivo(archivo)">
-                    Copiar
-                  </button>
+                <div class="row">
+                  <div class="col-md-6 d-flex justify-content-center" style="margin-left: 25%;">
+                    <button mat-raised-button color="accent" (click)="copiarArchivo(archivo)" style="margin-left: 10px;">
+                      Copiar
+                    </button>
+                    <button class="btn btn-warning" style="margin-left: 10px;">
+                      Mover
+                    </button>
+                    <button class="btn btn-danger" style="margin-left: 10px;"
+                    (click)="eliminarArchivo(archivo)">
+                      Eliminar
+                    </button>
+                  </div>
                 </div>
+
 
               </mat-card-content>
             </mat-card>
@@ -178,10 +187,16 @@ class="min-h-full max-w-7xl mx-auto border-x">
             <div>
               <p class="truncate hover:whitespace-normal">{{carpetaIndividual.ubicacion}}</p>
             </div>
-            <div class="justify-between flex">
+            <div class="justify-between flex " style="margin-bottom: 10px;">
             <button mat-raised-button color="warn"
             (click)="agregarCarpeta(carpetaIndividual)">
             Ingreso Carpeta</button>
+            </div>
+            <div class="justify-between flex">
+              <button mat-raised-button color="accent"
+              (click)="copiarCarpeta(carpetaIndividual)">
+                Copiar
+              </button>
             </div>
           </mat-card-content>
         </mat-card>

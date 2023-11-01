@@ -5,4 +5,5 @@ export class archivos {
   ubicacion!:string
   usuario!:string|undefined
   cantidadCopiado!:string
+  tipo!:string
 }

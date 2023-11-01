@@ -17,6 +17,7 @@ rutas.post('/ingresoArchivo', archivoControlador.crearArchivo);
 rutas.get('/obtenerArchivos', archivoControlador.obtenerArchivos);
 rutas.put('/editarArchivo', archivoControlador.editarArchivos);
 rutas.post('/copiarArchivo', archivoControlador.copiarArchivo);
+rutas.delete('/eliminarArchivo', archivoControlador.eliminarArchivo);
 
 
 //carpetas
@@ -24,6 +25,7 @@ rutas.post('/ingresoCarpetas', carpetasControlador.creaCarpeta);
 rutas.get('/obtenerCarpetas', carpetasControlador.obtenCarpetas);
 rutas.get('/obtenerArchivosDirectorio', carpetasControlador.obtenArchivosDirectorio);
 rutas.get('/obtenerCarpetasDirectorio', carpetasControlador.obtenerCarpetasDirectorio);
+rutas.post('/copiarCarpeta', carpetasControlador.copiarCarpetas);
 
 
 module.exports  = {

@@ -8,6 +8,7 @@ import { CreacionCarpetaComponent } from '../creacion-carpeta/creacion-carpeta.c
 import { UbicacionServicioService } from 'src/app/services/ubicacion-servicio.service';
 import { range } from 'rxjs';
 import { VistaEspecificaArchivosComponent } from '../vista-especifica-archivos/vista-especifica-archivos.component';
+import { carpetas } from 'src/app/models/carpetas';
 
 @Component({
   selector: 'app-general-empleado',
@@ -58,6 +59,13 @@ export class GeneralEmpleadoComponent implements OnInit {
       width:'80%',
       height:"650px",
       data: {archivos:archivo}
+    });
+  }
+
+  // funcion para la busqueda de elementos
+  buscarArchivos(texto: string) {
+    this.empleadosService.buscarElemento(texto).subscribe((archivos) => {
+      // Lógica para manejar los archivos recuperados
     });
   }
   //--------------------------------------------
@@ -143,7 +151,26 @@ export class GeneralEmpleadoComponent implements OnInit {
     this.empleadosService.copiarArchivo(archivo,this.directorioActual).subscribe(
       (copiado:any) => {
         console.log(copiado);
+      }
+    )
+  }
+//funcion para copiar carpeta
+  copiarCarpeta(carpeta: carpetas) {
+    this.empleadosService.copiarDirectorio(carpeta, this.directorioActual).subscribe(
+      (copiado:any) => {
+        console.log(copiado);
+      }
 
+    )
+  }
+
+
+  //funcion para elminar archivo
+
+  eliminarArchivo(archivo:archivos) {
+    this.empleadosService.eliminarArchivo(archivo).subscribe(
+      (eliminado:any) =>{
+        console.log(eliminado);
       }
     )
   }

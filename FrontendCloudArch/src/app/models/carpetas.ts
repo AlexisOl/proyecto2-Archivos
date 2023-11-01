@@ -5,6 +5,7 @@ export class carpetas {
   usuario!:string|undefined
   ubicacion!:string
   tipo!:string
+  cantidadCopiados!:string
   archivos!:archivos[]
 
 }

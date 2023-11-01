@@ -36,7 +36,12 @@ const obtenerUsuario = async(req, res) => {
         res.json({error: "no se pudo encontrar"});
 
     }
-}
+};
+
+//funcion para cambiar la contrsasenia
+const cambioContrasenia = async(req, res) => {
+
+};
 
 module.exports = {
     crearUsuario: crearUsuario,

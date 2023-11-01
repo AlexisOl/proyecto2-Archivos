@@ -8,6 +8,7 @@ const carpetas = new Schema(
       tipo: String,
       usuarioAsociado: String,
       ubicacion: String,
+      cantidadCopiados: String,
       cantidadArchivos: [{
         archivos: String
     }]
