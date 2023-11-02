@@ -147,11 +147,17 @@ class="min-h-full max-w-7xl mx-auto border-x">
                   <p class="truncate hover:whitespace-normal">{{archivo.contenido}}</p>
                   <p>EXTENSION->{{archivo.extension}}</p>
                 </div>
-                <div class="justify-between flex" style="margin-bottom: 10px;">
-                  <button mat-raised-button color="primary" (click)="actualizarArchivoModal(archivo)">
-                    Ver Elemento
-                  </button>
-                </div>
+                <div class="row">
+                  <div class="col-md-10 d-flex justify-content-center text-center" style="margin-bottom: 10px; margin-left: 7%;">
+                      <button mat-raised-button color="primary" style="width: 60%; margin-right: 5px; height: 95%;" (click)="actualizarArchivoModal(archivo)">
+                          Ver Elemento
+                      </button>
+                      <button class="btn btn-primary text-center" style="width: 60%; margin-left: 5px;">
+                          Compartir Archivo
+                      </button>
+                  </div>
+              </div>
+
                 <div class="row">
                   <div class="col-md-6 d-flex justify-content-center" style="margin-left: 25%;">
                     <button mat-raised-button color="accent" (click)="copiarArchivo(archivo)" style="margin-left: 10px;">
@@ -192,11 +198,22 @@ class="min-h-full max-w-7xl mx-auto border-x">
             (click)="agregarCarpeta(carpetaIndividual)">
             Ingreso Carpeta</button>
             </div>
-            <div class="justify-between flex">
-              <button mat-raised-button color="accent"
-              (click)="copiarCarpeta(carpetaIndividual)">
-                Copiar
-              </button>
+
+            <div class="row">
+              <div class="col-md-6 d-flex justify-content-center" style="margin-left: 25%;">
+                <button mat-raised-button color="accent"  style="margin-left: 10px;"
+                (click)="copiarCarpeta(carpetaIndividual)">
+                  Copiar
+                </button>
+                <button class="btn btn-warning" style="margin-left: 10px;">
+                  Mover
+                </button>
+                <button class="btn btn-danger" style="margin-left: 10px;"
+                (click)="eliminarCarpetas(carpetaIndividual)"
+               >
+                  Eliminar
+                </button>
+              </div>
             </div>
           </mat-card-content>
         </mat-card>

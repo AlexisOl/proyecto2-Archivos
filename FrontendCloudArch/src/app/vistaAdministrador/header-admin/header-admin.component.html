@@ -7,16 +7,22 @@
   <span class="example-spacer"></span>
 
   <button  mat-button
-    (click)="irArchivosCompartidos()" >
-    <span>Archivos Compartidos Conmigo</span>
+    (click)="irPapelera()" >
+    <span>Papelera</span>
   </button>
   <span class="example-spacer"></span>
 
   <button  mat-button
-    (click)="irCambioContrasenia()" >
-    <span>Cambio de Contrasenia</span>
+    (click)="irCrearEmpleado()" >
+    <span>Creacion de Empelados</span>
   </button>
   <span class="example-spacer"></span>
+  <button  mat-button
+  (click)="funcionEmpleado()" >
+  <span>Funcionalidad de Empelados</span>
+</button>
+<span class="example-spacer"></span>
+
   <button mat-button [matMenuTriggerFor]="fileMenu">{{this.nombreUsuario}}</button>
   <mat-menu #fileMenu="matMenu">
     <button  mat-menu-item (click)="cerrarSesion()">Cerrar Sesion</button>

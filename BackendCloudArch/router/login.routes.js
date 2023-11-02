@@ -26,6 +26,16 @@ rutas.get('/obtenerCarpetas', carpetasControlador.obtenCarpetas);
 rutas.get('/obtenerArchivosDirectorio', carpetasControlador.obtenArchivosDirectorio);
 rutas.get('/obtenerCarpetasDirectorio', carpetasControlador.obtenerCarpetasDirectorio);
 rutas.post('/copiarCarpeta', carpetasControlador.copiarCarpetas);
+rutas.delete('/eliminarCarpeta', carpetasControlador.eliminarCarpetas);
+
+
+
+//------ ADMIN ----------
+//-----------------------
+rutas.get('/verPapeleraGeneral', archivoControlador.verPapeleraGeneral);
+rutas.get('/verPapeleraCarpetasGeneral', carpetasControlador.verCarpetasEliminadas);
+
+
 
 
 module.exports  = {

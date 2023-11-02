@@ -37,7 +37,6 @@ const obtenerUsuario = async(req, res) => {
 
     }
 };
-
 //funcion para cambiar la contrsasenia
 const cambioContrasenia = async(req, res) => {
 

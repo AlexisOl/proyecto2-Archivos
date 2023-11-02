@@ -10,6 +10,7 @@ const crearArchivo = async (req, res) => {
     extension: req.body.extension,
     ubicacion: req.body.ubicacion,
     usuario: req.body.usuario,
+    tipo: "raiz"
   });
 
   const nuevoArchivo = await insertarArchivo.save();
@@ -79,6 +80,7 @@ const copiarArchivo = async (req, res) => {
     ubicacion: ubicacion,
     usuario: archivoParaCopiar.usuario,
     cantidadCopiado: String(0),
+    tipo:"raiz"
   });
 
   //actualiza el archivo que se habia usado como refenrencia de copia
@@ -111,20 +113,21 @@ const copiarArchivo = async (req, res) => {
 //---------------------------------------------------------
 //---------------------------------------------------------
 const eliminarArchivo = async(req, res) => {
-    const {archivoEliminar} = req.body;
-
+    const archivoEliminar = JSON.parse(req.query.archivoEliminar[1]);
+    console.log(archivoEliminar._id, archivoEliminar.nombre);
+ 
     //busca el archivo en base al id
     //ahora solo modificarlo
     const mandarAPapelera = await archivo.updateOne(
-        { _id: archivoEliminar._id },
-        {
-          $set: {
-            tipo: "Papelera"
-          },
+      { _id: archivoEliminar._id },
+      {
+        $set: {
+          tipo: "Papelera"
         },
-        { new: true }
-    );
-
+      },
+      { new: true }
+  );
+  
     if (mandarAPapelera) {
        console.log(mandarAPapelera);
     } else {
@@ -134,10 +137,28 @@ const eliminarArchivo = async(req, res) => {
     }
 }
 
+
+///// PARA VER ARCHIVOS EN PAPELERA
+const verPapeleraGeneral= async(req, res) => {
+  const {papelera, ubicacion} = req.query;
+
+
+  const peticionPapelera = await archivo.find({tipo: papelera, ubicacion:ubicacion});
+
+  if(peticionPapelera) {
+    res.json(peticionPapelera);
+  } else {
+    res.json({error: "no se pudo procesar"})
+  }
+
+ 
+};
+
 module.exports = {
   crearArchivo: crearArchivo,
   obtenerArchivos: obtenerArchivos,
   editarArchivos: editarArchivos,
   copiarArchivo: copiarArchivo,
-  eliminarArchivo:eliminarArchivo
+  eliminarArchivo:eliminarArchivo,
+  verPapeleraGeneral: verPapeleraGeneral
 };

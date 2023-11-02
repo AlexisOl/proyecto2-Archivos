@@ -26,6 +26,11 @@ import { CreacionArchivoComponent } from './vistaEmpleados/creacion-archivo/crea
 import {MatSelectModule} from '@angular/material/select';
 import { CreacionCarpetaComponent } from './vistaEmpleados/creacion-carpeta/creacion-carpeta.component';
 import { VistaEspecificaArchivosComponent } from './vistaEmpleados/vista-especifica-archivos/vista-especifica-archivos.component';
+import { ArchivosCompartidosComponent } from './vistaEmpleados/archivos-compartidos/archivos-compartidos.component';
+import { PapeleraComponent } from './vistaAdministrador/papelera/papelera.component';
+import { CrearEmpleadosComponent } from './vistaAdministrador/crear-empleados/crear-empleados.component';
+import { HeaderAdminComponent } from './vistaAdministrador/header-admin/header-admin.component';
+import { CambioPasswordComponent } from './vistaEmpleados/cambio-password/cambio-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +43,12 @@ import { VistaEspecificaArchivosComponent } from './vistaEmpleados/vista-especif
     HeaderEmpleadoComponent,
     CreacionArchivoComponent,
     CreacionCarpetaComponent,
-    VistaEspecificaArchivosComponent
+    VistaEspecificaArchivosComponent,
+    ArchivosCompartidosComponent,
+    PapeleraComponent,
+    CrearEmpleadosComponent,
+    HeaderAdminComponent,
+    CambioPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -174,6 +174,16 @@ export class GeneralEmpleadoComponent implements OnInit {
       }
     )
   }
+
+  //funcion para eliminar carpetas
+  eliminarCarpetas(carpeta:carpetas) {
+    this.empleadosService.eliminarCarpetas(carpeta).subscribe(
+      (eliminado: any) => {
+        console.log(eliminado);
+
+      }
+    )
+  }
   //--------------------------------------------
   //--------------------------------------------
   //--------------------------------------------

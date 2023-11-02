@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { archivos } from '../models/archivos';
@@ -26,7 +26,7 @@ export class EmpleadosServicioService {
 
 
 
-  //funcion para obtener archivos en base a directorio
+  //funcion para obtener archivos en base a directorio AHORA SI ES RAIZ
   public obtenerArchivosDirectorio(ubicacion: string, usuario:string):Observable<archivos> {
     return this.http.get<archivos>(this.URL+"obtenerArchivosDirectorio?ubicacion="+ubicacion+"&usuario="+usuario);
   }
@@ -98,9 +98,17 @@ export class EmpleadosServicioService {
 
   //funcion para eliminar archivos
   public eliminarArchivo(archivo:archivos):Observable<any> {
-    return this.http.delete(this.URL+"eliminarArchivo?archivoEliminar="+archivo);
+    const params = new HttpParams().set('archivoEliminar', JSON.stringify(archivo));
+  const options = { params: params };
+    return this.http.delete(this.URL+"eliminarArchivo?archivoEliminar=",options);
   }
   //funcion para eliminar carpetas
+
+  public eliminarCarpetas(carpetaEliminar: carpetas):Observable<any> {
+    let params = new HttpParams().set('carpetaEliminar', JSON.stringify(carpetaEliminar));
+    const options = { params: params };
+    return this.http.delete(this.URL + "eliminarCarpeta?carpetaEliminar=", options);
+  }
 
 
 }

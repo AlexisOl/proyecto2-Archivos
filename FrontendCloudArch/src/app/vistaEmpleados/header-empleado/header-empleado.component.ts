@@ -18,6 +18,12 @@ export class HeaderEmpleadoComponent implements OnInit{
     this.router.navigate(['./generalEmpleado'])
 
   }
+  irArchivosCompartidos(){
+    this.router.navigate(['./generalEmpleado/arhivosCompartidos'])
+  }
+  irCambioContrasenia() {
+    this.router.navigate(['./generalEmpleado/cambioContrasenia'])
+  }
   cerrarSesion(){
     this.sesion.eliminarUsuario();
     this.router.navigate(['./inicio'])
