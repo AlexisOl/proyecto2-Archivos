@@ -9,6 +9,7 @@ import { UbicacionServicioService } from 'src/app/services/ubicacion-servicio.se
 import { range } from 'rxjs';
 import { VistaEspecificaArchivosComponent } from '../vista-especifica-archivos/vista-especifica-archivos.component';
 import { carpetas } from 'src/app/models/carpetas';
+import { DeterminacionUbicacionComponent } from '../determinacion-ubicacion/determinacion-ubicacion.component';
 
 @Component({
   selector: 'app-general-empleado',
@@ -51,6 +52,7 @@ export class GeneralEmpleadoComponent implements OnInit {
     });
   }
 
+
   //modal para actualizaciones de archivos
 
   actualizarArchivoModal(archivo: archivos){
@@ -60,6 +62,15 @@ export class GeneralEmpleadoComponent implements OnInit {
       height:"650px",
       data: {archivos:archivo}
     });
+  }
+
+  //modal para determinar que ubicacion quiere mover el archivo
+  moverArchivosModal(archivo: archivos) {
+    this.dialog.open(DeterminacionUbicacionComponent, {
+      width:"70&",
+      height:"650px",
+      data: {archivos:archivo}
+    })
   }
 
   // funcion para la busqueda de elementos

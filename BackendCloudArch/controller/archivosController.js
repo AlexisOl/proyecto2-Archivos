@@ -1,4 +1,5 @@
 const archivo = require("../models/archivos.js");
+const carpertas = require("../models/carpertas.js");
 
 //funcion para ingreso de archiovs
 const crearArchivo = async (req, res) => {
@@ -10,7 +11,7 @@ const crearArchivo = async (req, res) => {
     extension: req.body.extension,
     ubicacion: req.body.ubicacion,
     usuario: req.body.usuario,
-    tipo: "raiz"
+    tipo: "raiz",
   });
 
   const nuevoArchivo = await insertarArchivo.save();
@@ -80,7 +81,7 @@ const copiarArchivo = async (req, res) => {
     ubicacion: ubicacion,
     usuario: archivoParaCopiar.usuario,
     cantidadCopiado: String(0),
-    tipo:"raiz"
+    tipo: "raiz",
   });
 
   //actualiza el archivo que se habia usado como refenrencia de copia
@@ -112,46 +113,121 @@ const copiarArchivo = async (req, res) => {
 //---------------------------------------------------------
 //---------------------------------------------------------
 //---------------------------------------------------------
-const eliminarArchivo = async(req, res) => {
-    const archivoEliminar = JSON.parse(req.query.archivoEliminar[1]);
-    console.log(archivoEliminar._id, archivoEliminar.nombre);
- 
-    //busca el archivo en base al id
-    //ahora solo modificarlo
-    const mandarAPapelera = await archivo.updateOne(
-      { _id: archivoEliminar._id },
-      {
-        $set: {
-          tipo: "Papelera"
-        },
-      },
-      { new: true }
-  );
-  
-    if (mandarAPapelera) {
-       console.log(mandarAPapelera);
-    } else {
-        res.json({
-            error: "no se pudo eliminar"
-        })
-    }
-}
+const eliminarArchivo = async (req, res) => {
+  const archivoEliminar = JSON.parse(req.query.archivoEliminar[1]);
+  console.log(archivoEliminar._id, archivoEliminar.nombre);
 
+  //busca el archivo en base al id
+  //ahora solo modificarlo
+  const mandarAPapelera = await archivo.updateOne(
+    { _id: archivoEliminar._id },
+    {
+      $set: {
+        tipo: "Papelera",
+      },
+    },
+    { new: true }
+  );
+
+  if (mandarAPapelera) {
+    console.log(mandarAPapelera);
+  } else {
+    res.json({
+      error: "no se pudo eliminar",
+    });
+  }
+};
 
 ///// PARA VER ARCHIVOS EN PAPELERA
-const verPapeleraGeneral= async(req, res) => {
-  const {papelera, ubicacion} = req.query;
+const verPapeleraGeneral = async (req, res) => {
+  const { papelera, ubicacion } = req.query;
 
+  const peticionPapelera = await archivo.find({
+    tipo: papelera,
+    ubicacion: ubicacion,
+  });
 
-  const peticionPapelera = await archivo.find({tipo: papelera, ubicacion:ubicacion});
-
-  if(peticionPapelera) {
+  if (peticionPapelera) {
     res.json(peticionPapelera);
   } else {
-    res.json({error: "no se pudo procesar"})
+    res.json({ error: "no se pudo procesar" });
   }
+};
 
- 
+//funcion para poder mover los archivos de carpeta
+// para mover si hay algo del mismo nombre no se puede
+const moverArchivo = async (req, res) => {
+  const { ubicacion, archivos } = req.body;
+  //buscamos si ya hay archivos con el mismo nombre
+  const verElementos = await archivo.find({
+    ubicacion: ubicacion,
+    nombre: archivos.nombre,
+  });
+
+  //generar la modificacion
+  if (verElementos.length < 1) {
+    try {
+      const peticionMover = await archivo.updateOne(
+        { _id: archivos._id },
+        {
+          $set: {
+            ubicacion: ubicacion,
+          },
+        },
+        { new: true }
+      );
+
+      if (peticionMover) {
+        res.json(peticionMover);
+      } else {
+        res.json({ error: "no se pudo " });
+      }
+    } catch (error) {
+      res.json({ error: error });
+    }
+  }
+};
+
+//funcion para buscar un archivo en base a una expresion
+const buscarDirectorioParcial = async (req, res) => {
+  const { ubicacion } = req.query;
+  console.log(ubicacion);
+
+  const peticionBuscar = carpertas
+    .find(
+      { ubicacion: new RegExp(ubicacion) },
+      { ubicacion: 1, _id: 0, nombre: 1 }
+    )
+    .sort({ ubicacion: 1 });
+  let arrayElementos = [];
+  let valorInicialMasCercano =0;
+  let nuevaUbicacion = "";
+  (await peticionBuscar).forEach((elementos) => {
+
+    if(valorInicialMasCercano ===0) {
+       nuevaUbicacion = elementos.ubicacion;
+    }
+    console.log("jala?", elementos);
+
+    arrayElementos.push(elementos.ubicacion+elementos.nombre+"/");
+    valorInicialMasCercano++;
+
+  });
+  arrayElementos.push(nuevaUbicacion);
+  console.log(arrayElementos);
+
+  const arraySinRepetir = arrayElementos.filter((valor, indice, arreglo) => {
+    return arreglo.indexOf(valor) === indice;
+  });
+
+  if (arraySinRepetir) {
+    const arrayValores = Object.values(arraySinRepetir);
+    console.log(arrayValores);
+
+    res.json({ arrayValores });
+  } else {
+    res.json({ error: "error no se pudo" });
+  }
 };
 
 module.exports = {
@@ -159,6 +235,8 @@ module.exports = {
   obtenerArchivos: obtenerArchivos,
   editarArchivos: editarArchivos,
   copiarArchivo: copiarArchivo,
-  eliminarArchivo:eliminarArchivo,
-  verPapeleraGeneral: verPapeleraGeneral
+  eliminarArchivo: eliminarArchivo,
+  verPapeleraGeneral: verPapeleraGeneral,
+  moverArchivo: moverArchivo,
+  buscarDirectorioParcial: buscarDirectorioParcial,
 };

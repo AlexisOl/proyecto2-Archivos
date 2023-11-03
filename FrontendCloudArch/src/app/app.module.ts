@@ -31,6 +31,8 @@ import { PapeleraComponent } from './vistaAdministrador/papelera/papelera.compon
 import { CrearEmpleadosComponent } from './vistaAdministrador/crear-empleados/crear-empleados.component';
 import { HeaderAdminComponent } from './vistaAdministrador/header-admin/header-admin.component';
 import { CambioPasswordComponent } from './vistaEmpleados/cambio-password/cambio-password.component';
+import { DeterminacionUbicacionComponent } from './vistaEmpleados/determinacion-ubicacion/determinacion-ubicacion.component';
+import {MatTableModule} from '@angular/material/table';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +50,8 @@ import { CambioPasswordComponent } from './vistaEmpleados/cambio-password/cambio
     PapeleraComponent,
     CrearEmpleadosComponent,
     HeaderAdminComponent,
-    CambioPasswordComponent
+    CambioPasswordComponent,
+    DeterminacionUbicacionComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ import { CambioPasswordComponent } from './vistaEmpleados/cambio-password/cambio
     MatCardModule,
     MatBadgeModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

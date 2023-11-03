@@ -1,0 +1,74 @@
+<h1 class="justify-content-center">Creacion de Direactorios</h1>
+
+<form class="form-container" #f="ngForm">
+  <div #ingresoCliente>
+    <div class="row">
+      <label for="nombre" class="mt-5 d-flex ">
+        Nombre del Directorio
+      </label>
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="nombre Directorio"
+          name="ProductoBodega"
+          [(ngModel)]="nombre"
+        />
+      </div>
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
+        <button mat-raised-button color="warn" (click)="buscar()">Buscar</button>
+      </div>
+    </div>
+
+
+    <!--ESPACIO PARA LA TABLITA-->
+    <div class="container" *ngIf="verTabla">
+      <table mat-table [dataSource]="verDirectorios" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+        <!-- Nombre Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <!---FIN DE TABLITA-->
+
+    <div class="row">
+      <div class="col-md-12">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Nombre del Directorio
+        </label>
+        <mat-form-field>
+          <mat-label>Directorio</mat-label>
+          <mat-select [(ngModel)]="selectedValue" name="food">
+            <mat-option>Ninguno</mat-option>
+            <mat-option *ngFor="let state of states" [value]="state">{{
+              state
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--Para botonoes-->
+
+<hr />
+<div class="row">
+  <div class="col-md-6">
+    <button mat-raised-button color="primary" (click)="mandarInfo()">Crear</button>
+  </div>
+  <div class="col-md-6">
+    <button class="btn btn-warning" (click)="cerrar()">Cancelar</button>
+  </div>
+</div>

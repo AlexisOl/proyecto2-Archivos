@@ -110,5 +110,29 @@ export class EmpleadosServicioService {
     return this.http.delete(this.URL + "eliminarCarpeta?carpetaEliminar=", options);
   }
 
+  //funcion de busacr elemento en base a lo que envie como expresion en la ubicacion
+  public obtenerElementosRelacionadosCarpetas(ubicacionParcial: string):Observable<carpetas> {
+    return this.http.get<carpetas>(this.URL+"buscarDirectoriosParecidos?ubicacion="+ubicacionParcial);
+  }
+
+  //funcion para mover archivos
+
+  public moverArchivo(ubicacion:string, archivo: archivos):Observable<archivos> {
+    const elementoGenerado = {
+      ubicacion: ubicacion,
+      archivos: archivo
+    }
+    return this.http.put<archivos>(this.URL+"moverArchivo", elementoGenerado);
+  }
+
+  //funcion para mover carpetas
+  public moverCarpetas(ubicacion:string, carpeta:carpetas):Observable<carpetas> {
+    const elementosGenerados = {
+      ubicacion: ubicacion,
+      carpetaMover : carpeta
+    }
+    return this.http.put<carpetas>(this.URL+"moverCarpetas", elementosGenerados);
+  }
+
 
 }

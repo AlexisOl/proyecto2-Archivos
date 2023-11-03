@@ -18,6 +18,8 @@ rutas.get('/obtenerArchivos', archivoControlador.obtenerArchivos);
 rutas.put('/editarArchivo', archivoControlador.editarArchivos);
 rutas.post('/copiarArchivo', archivoControlador.copiarArchivo);
 rutas.delete('/eliminarArchivo', archivoControlador.eliminarArchivo);
+rutas.put('/moverArchivo', archivoControlador.moverArchivo);
+rutas.get('/buscarDirectoriosParecidos', archivoControlador.buscarDirectorioParcial);
 
 
 //carpetas

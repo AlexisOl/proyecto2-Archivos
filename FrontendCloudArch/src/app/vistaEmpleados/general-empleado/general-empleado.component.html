@@ -163,7 +163,8 @@ class="min-h-full max-w-7xl mx-auto border-x">
                     <button mat-raised-button color="accent" (click)="copiarArchivo(archivo)" style="margin-left: 10px;">
                       Copiar
                     </button>
-                    <button class="btn btn-warning" style="margin-left: 10px;">
+                    <button class="btn btn-warning" style="margin-left: 10px;"
+                    (click)="moverArchivosModal(archivo)">
                       Mover
                     </button>
                     <button class="btn btn-danger" style="margin-left: 10px;"
