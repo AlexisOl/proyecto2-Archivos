@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { archivos } from 'src/app/models/archivos';
 import { EmpleadosServicioService } from 'src/app/services/empleados-servicio.service';
 
 @Component({
@@ -43,12 +44,22 @@ export class DeterminacionUbicacionComponent implements OnInit{
   }
  //mandar info
   mandarInfo(){
-    console.log(this.selectedValue, this.data.archivos.nombre);
-    this.elementosSugeridos.moverArchivo(this.selectedValue, this.data.archivos).subscribe(
-      (elemento) => {
-        console.log(elemento);
-      }
-    )
+
+    if (this.data.tipo==="archivo") {
+      this.elementosSugeridos.moverArchivo(this.selectedValue, this.data.archivos).subscribe(
+        (elemento) => {
+          console.log(elemento);
+        }
+      );
+    } else {
+      this.elementosSugeridos.moverCarpetas(this.selectedValue, this.data.carpetas).subscribe(
+        (elemento) => {
+          console.log(elemento);
+        }
+      )
+
+    }
+
 
   }
  //cerra la referencia

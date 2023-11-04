@@ -1,2 +1,119 @@
 <app-header-empleado></app-header-empleado>
-<p>archivos-compartidos works!</p>
+<div class="container">
+
+
+  <mat-card class="example-card">
+    <mat-card-content>
+  <div class="row">
+
+    <div class="col-md-6">
+      <button
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+      (click)="retrocesoCarpetas()"
+
+    >
+      <span >
+        <mat-icon >keyboard_backspace</mat-icon>
+      </span>
+      </button>
+      <button
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+      (click)="recargosGenerales()"
+    >
+      <span >
+        <mat-icon >refresh</mat-icon>
+      </span>
+      </button>
+
+
+    </div>
+    <div class="col-md-6">
+      <label for="nombre" class="mt-5 d-flex justify-content-center">
+        Directorio Actual
+      </label>
+      <input
+        type="text"
+        class="form-control mt-2"
+        name="directorioActual"
+        [(ngModel)]="directorioActual"
+        readonly
+      />
+    </div>
+  </div>
+  <hr/>
+</mat-card-content>
+</mat-card>
+</div>
+  <hr/>
+
+<!--COMIENZO ARCHIVOS-->
+<div class="container">
+  <div class="row">
+    <div class="cl-md-10">
+      <div class="titulo">
+        <h1>Archivos En Papelera</h1>
+      </div>
+    </div>
+    <!--ESPACIO PARA ARCHIVOS
+    ----------------
+
+    ----------------
+
+    ----------------
+    -->
+        <div class="col-md-3" *ngFor="let archivo of archivosEliminado">
+          <mat-card [style.height.%]="100" class="mat-elevation-z4 text-center">
+            <mat-card-header>
+              <mat-card-title>{{archivo.nombre}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div>
+                <p class="truncate hover:whitespace-normal">{{archivo.contenido}}</p>
+                <p>EXTENSION->{{archivo.extension}}</p>
+              </div>
+              <div class="justify-between flex" style="margin-bottom: 10px;">
+                <button mat-raised-button color="primary">
+                  Ver Elemento
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+  <!--ESPACIO PARA CARPETAS
+    ----------------
+
+    ----------------
+
+    ----------------
+    -->
+    <div class="col-md-3" *ngFor="let carpetaIndividual of carpetasEliminado">
+      <mat-card [style.height.%]="100" class="mat-elevation-z4 text-center">
+        <mat-card-header>
+          <mat-card-title>{{carpetaIndividual.nombre}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <p class="truncate hover:whitespace-normal">{{carpetaIndividual.ubicacion}}</p>
+          </div>
+          <div class="justify-between flex " style="margin-bottom: 10px;">
+          <button mat-raised-button color="warn"
+          (click)="agregarCarpeta(carpetaIndividual)"
+          >
+          Ingreso Carpeta</button>
+          </div>
+          <div class="row">
+              <button class="btn btn-danger" style="margin-left: 10px;"
+             >
+                Eliminar
+              </button>
+            </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+      </div>
+    </div>

@@ -1,0 +1,29 @@
+<h1 class="justify-content-center">Creacion de Direactorios</h1>
+
+<form class="form-container" #f="ngForm">
+  <div #ingresoCliente>
+    <div class="row">
+      <label for="nombre" class="mt-10 d-flex ">
+        Nombre del Usuario
+      </label>
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="nombre Directorio"
+          name="ProductoBodega"
+          [(ngModel)]="nombre"
+        />
+      </div>
+    </div>
+<!--Para botonoes-->
+
+<hr />
+<div class="row">
+  <div class="col-md-6">
+    <button mat-raised-button color="primary">Compartir</button>
+  </div>
+  <div class="col-md-6">
+    <button class="btn btn-warning" (click)="cerrar()">Cancelar</button>
+  </div>
+</div>

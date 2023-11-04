@@ -135,4 +135,19 @@ export class EmpleadosServicioService {
   }
 
 
+  //funcion para compartir un archivo con un usuario
+  public compartirArchivo(nombre:string, archivo: archivos):Observable<archivos>{
+    const elementoEstructurado = {
+      nombre: nombre,
+      archivosPeticion: archivo
+    }
+    return this.http.post<archivos>(this.URL+"compartirArchivo",elementoEstructurado);
+  }
+
+    //ver la papelera GENERAL
+    public verCompartirGeneral(ubicacion:string):Observable<archivos> {
+      let compartir = "Compartir";
+      return this.http.get<archivos>(this.URL+"verCompartirGeneral?compartir="+compartir+"&ubicacion="+ubicacion);
+    }
+
 }

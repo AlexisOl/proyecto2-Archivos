@@ -502,7 +502,204 @@ const verCarpetasEliminadas = async(req, res) => {
 
 };
 
+//funcion para mover carpetas y todos sus archivos 
+const moverCarpeta = async (req, res) => {
+    const { ubicacion, carpetaMover } = req.body;
+    console.log(carpetaMover);
+    console.log(ubicacion);
 
+    let archivosObtenidos =[];
+    let carpetasObtenidas = [];
+    let ubicacionesArchivosActualizadas = [];
+    let ubicacionesCarpetasActualizadas = [];
+    //genracion general de la ubicacion
+    let directorioParaDemasArchivos = carpetaMover.ubicacion+carpetaMover.nombre+"/";
+    let ubicacionInicialPartida = directorioParaDemasArchivos.split("/");
+    // actualizacion de la carpeta general 
+    try {
+        const peticionActualizacionOriginal = await carpertas.updateOne(
+            {_id: carpetaMover._id},
+            {
+                ubicacion: ubicacion
+            }
+        )
+        console.log(peticionActualizacionOriginal);
+        if (peticionActualizacionOriginal) {
+
+        } else {
+            res.json({error:"error no se pudo"})
+        }
+
+    } catch (error) {
+        res.json({error:`error no se pudo ${error}` })
+
+    }
+
+    //obtengo cada una de las ubicaciones nuevas
+    const archivosInicial = await archivos.find({tipo: "raiz"});
+    const carperasInicial = await carpertas.find({tipo: "raiz"})
+
+    obtenerArchivosUbicacionesModificadas(archivosInicial,ubicacionInicialPartida, archivosObtenidos,ubicacionesArchivosActualizadas, ubicacion);
+    obtenerCarpetasUbicacionesModificadas(carperasInicial, ubicacionInicialPartida, carpetasObtenidas, ubicacionesCarpetasActualizadas,ubicacion);
+    //solo para ver
+    console.log(archivosObtenidos);
+    console.log(carpetasObtenidas);
+    console.log(ubicacionesArchivosActualizadas);
+    console.log(ubicacionesCarpetasActualizadas);
+    //ahora solo actualizo cada archivo y carpeta
+    //-----------------------------------------------------
+    //-----------------------------------------------------
+    //------------ARCHIVOS----------------
+    //-----------------------------------------------------
+    let contadorArchivoElementos =0;
+    for (let i = 0; i < archivosObtenidos.length; i++) {
+        try {
+            const archivoIndividual = archivosObtenidos[i];
+            console.log(
+                "solo para ver " +
+                    archivoIndividual.nombre +
+                    "++++++" +
+                    ubicacionesArchivosActualizadas[i] +
+                    "contador" +
+                    i
+            );
+    
+            const actualizarArchivo = await archivos.updateOne(
+                { _id: archivoIndividual._id },
+                {
+                    $set: {
+                        ubicacion: ubicacionesArchivosActualizadas[i],
+                    },
+                },
+                { new: true }
+            );
+            if (!actualizarArchivo) {
+                return res.json({ error: "no se puede modificar" });
+            } else {
+                contadorArchivoElementos++;
+            }
+        } catch (error) {
+            res.json(error);
+        }
+    }
+    
+  //-----------------------------------------------------
+    //-----------------------------------------------------
+    //------------Carpetas----------------
+    //-----------------------------------------------------
+    let contadorCarpetaElementos =0;
+    for (let i = 0; i < carpetasObtenidas.length; i++) {
+        try {
+            const carpetaIndividual = carpetasObtenidas[i];
+            console.log(
+                "solo para ver " +
+                    carpetaIndividual.nombre +
+                    "++++++" +
+                    ubicacionesCarpetasActualizadas[i]
+            );
+            const actualizarCarpeta = await carpertas.updateOne(
+                { _id: carpetaIndividual._id },
+                {
+                    $set: {
+                        ubicacion: ubicacionesCarpetasActualizadas[i],
+                    },
+                },
+                { new: true }
+            );
+            if (!actualizarCarpeta) {
+                return res.json({ error: "no se puede modificar" });
+            }
+        } catch (error) {
+            res.json(error);
+        }
+        contadorCarpetaElementos++;
+    }
+    
+
+};
+
+
+//FUNCIONES DE FORMA ASINCRONA PARA CADA ELEMENTOS 
+async function obtenerArchivosUbicacionesModificadas(archivosTotales,ubicacionInicialPartida, ubicaciones,
+    ubicacionesActulizadasArchivos, nuevaUbicacion) {
+   archivosTotales.forEach(
+       
+       (archivoEspecifico) => {
+           let nuevoDirectorio = "";
+           let parteModificadaDirectorio = "";
+           let archivoEspecificoPartido = archivoEspecifico.ubicacion.split("/");
+           // inicio de contador para verificar que si cumple con todos los nombres de carpetas
+           let cantidadContada = 0;
+           //ciclo para verificar cada elemento
+           for (i =0; i < ubicacionInicialPartida.length-1 ; i++) {
+               console.log(ubicacionInicialPartida[i]+"-------"+archivoEspecificoPartido[i]);
+               if (ubicacionInicialPartida[i] === archivoEspecificoPartido[i]) {
+                   cantidadContada++;
+                   // este es para la parte despues
+                   nuevoDirectorio += ubicacionInicialPartida[i]+"/";
+                          //este es par el cambio
+                   if (i < ubicacionInicialPartida.length-2) {
+                           parteModificadaDirectorio += ubicacionInicialPartida[i]+"/";
+                   }
+               
+               }
+           }
+
+           if (cantidadContada === ubicacionInicialPartida.length-1) {
+
+               ubicaciones.push(archivoEspecifico);
+               console.log(parteModificadaDirectorio+"**************");
+               console.log(nuevoDirectorio+"------------------------------------------------");
+               let prueba = archivoEspecifico.ubicacion.split(parteModificadaDirectorio)
+               console.log("a ver si jala"+prueba);
+               // SOLO QUEDA UNIR DIRECTORIOS NUEVOS
+               let directorioModificadoUnificado = nuevaUbicacion+prueba[1];
+               console.log("actualizado*************** "+directorioModificadoUnificado);
+               ubicacionesActulizadasArchivos.push(directorioModificadoUnificado);
+           }
+       }
+   )
+}
+
+async function obtenerCarpetasUbicacionesModificadas(carpetasTotales, ubicacionInicialPartida, ubicaciones,
+    ubicacionesActulizadasCarpetas, nuevaUbicacion) {
+    carpetasTotales.forEach(
+        (carpetasEspecificas) => {
+            let nuevoDirectorio = "";
+            let parteModificadaDirectorio = "";
+
+            let carpetaEspecificaPartida = carpetasEspecificas.ubicacion.split("/");
+            let cantidadContada =0;
+
+            //ciclo para verificar
+            for (i =0; i < ubicacionInicialPartida.length-1 ; i++) {
+                console.log(ubicacionInicialPartida[i]+"-------"+carpetaEspecificaPartida[i]);
+                if (ubicacionInicialPartida[i] === carpetaEspecificaPartida[i]) {
+                    cantidadContada++;
+                      // este es para la parte despues
+                    nuevoDirectorio += ubicacionInicialPartida[i]+"/";
+                      //este es par el cambio
+                      if (i < ubicacionInicialPartida.length-2) {
+
+                    parteModificadaDirectorio += ubicacionInicialPartida[i]+"/";
+                      }
+                }
+            }
+
+            if (cantidadContada === ubicacionInicialPartida.length-1) {
+                ubicaciones.push(carpetasEspecificas);
+                console.log(carpetasTotales+"++++++++++++++++++++++++++++++");
+                console.log(carpetasTotales+"++++++++++++++++++++++++++++++");
+                let prueba = carpetasEspecificas.ubicacion.split(parteModificadaDirectorio)
+                // SOLO QUEDA UNIR DIRECTORIOS NUEVOS
+                let directorioModificadoUnificado = nuevaUbicacion+prueba[1];
+                console.log("actualizado+++++++++++++++++++ "+directorioModificadoUnificado);
+                ubicacionesActulizadasCarpetas.push(directorioModificadoUnificado);
+            }
+        }
+    )
+}
+ 
 
 module.exports = {
     creaCarpeta: creaCarpeta,
@@ -511,5 +708,6 @@ module.exports = {
     obtenerCarpetasDirectorio: obtenerCarpetasDirectorio,
     copiarCarpetas:copiarCarpetas,
     eliminarCarpetas:eliminarCarpetas,
-    verCarpetasEliminadas: verCarpetasEliminadas
+    verCarpetasEliminadas: verCarpetasEliminadas,
+    moverCarpeta: moverCarpeta
 }

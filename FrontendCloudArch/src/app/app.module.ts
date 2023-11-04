@@ -33,6 +33,8 @@ import { HeaderAdminComponent } from './vistaAdministrador/header-admin/header-a
 import { CambioPasswordComponent } from './vistaEmpleados/cambio-password/cambio-password.component';
 import { DeterminacionUbicacionComponent } from './vistaEmpleados/determinacion-ubicacion/determinacion-ubicacion.component';
 import {MatTableModule} from '@angular/material/table';
+import { MensajeErrorComponent } from './vistaEmpleados/mensaje-error/mensaje-error.component';
+import { CompartirArchivoComponent } from './vistaEmpleados/compartir-archivo/compartir-archivo.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +53,9 @@ import {MatTableModule} from '@angular/material/table';
     CrearEmpleadosComponent,
     HeaderAdminComponent,
     CambioPasswordComponent,
-    DeterminacionUbicacionComponent
+    DeterminacionUbicacionComponent,
+    MensajeErrorComponent,
+    CompartirArchivoComponent
   ],
   imports: [
     BrowserModule,

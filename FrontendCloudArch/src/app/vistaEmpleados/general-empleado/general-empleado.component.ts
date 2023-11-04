@@ -10,6 +10,7 @@ import { range } from 'rxjs';
 import { VistaEspecificaArchivosComponent } from '../vista-especifica-archivos/vista-especifica-archivos.component';
 import { carpetas } from 'src/app/models/carpetas';
 import { DeterminacionUbicacionComponent } from '../determinacion-ubicacion/determinacion-ubicacion.component';
+import { CompartirArchivoComponent } from '../compartir-archivo/compartir-archivo.component';
 
 @Component({
   selector: 'app-general-empleado',
@@ -69,7 +70,7 @@ export class GeneralEmpleadoComponent implements OnInit {
     this.dialog.open(DeterminacionUbicacionComponent, {
       width:"70&",
       height:"650px",
-      data: {archivos:archivo}
+      data: {archivos:archivo, tipo: "archivo"}
     })
   }
 
@@ -78,6 +79,24 @@ export class GeneralEmpleadoComponent implements OnInit {
     this.empleadosService.buscarElemento(texto).subscribe((archivos) => {
       // Lógica para manejar los archivos recuperados
     });
+  }
+
+  //funcion para abir modal de carpetas
+  moverCarpetaModal(carpeta:carpetas) {
+    this.dialog.open(DeterminacionUbicacionComponent, {
+      width:"70&",
+      height:"650px",
+      data: {carpetas:carpeta, tipo: "carpeta"}
+    })
+  }
+
+  //fucnion para compartr archivos
+  compartirArchivoModal(archivo:archivos) {
+    this.dialog.open(CompartirArchivoComponent, {
+      width:"70&",
+      height:"650px",
+      data: {archivos:archivo}
+    })
   }
   //--------------------------------------------
   //--------------------------------------------

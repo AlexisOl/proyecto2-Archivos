@@ -1,5 +1,6 @@
 const archivo = require("../models/archivos.js");
 const carpertas = require("../models/carpertas.js");
+const user = require("../models/user.js");
 
 //funcion para ingreso de archiovs
 const crearArchivo = async (req, res) => {
@@ -230,6 +231,35 @@ const buscarDirectorioParcial = async (req, res) => {
   }
 };
 
+//funcion para compartir archivos
+const compartirArchivos = async (req, res) => {
+  const {nombre,archivosPeticion } = req.body;
+  const now = new Date(); 
+  const hours = now.getHours(); 
+  const minutes = now.getMinutes(); 
+  const seconds = now.getSeconds(); 
+  const formattedTime = `${hours}:${minutes}:${seconds}`;
+  const buscarUsuario = await user.findOne({nombre: nombre});
+
+  if(buscarUsuario) {
+    const insertarArchivo = new archivo({
+      nombre: archivosPeticion.nombre,
+      contenido: archivosPeticion.contenido,
+      extension: archivosPeticion.extension,
+      ubicacion: "compatido/",
+      usuario: nombre,
+      tipo: "compartido",
+      usuarioOriginal: archivosPeticion.usuario,
+      fecha: now,
+      hora: formattedTime
+    });
+  
+    const nuevoArchivo = await insertarArchivo.save();
+    res.json(nuevoArchivo);
+  }
+}
+
+
 module.exports = {
   crearArchivo: crearArchivo,
   obtenerArchivos: obtenerArchivos,
@@ -239,4 +269,5 @@ module.exports = {
   verPapeleraGeneral: verPapeleraGeneral,
   moverArchivo: moverArchivo,
   buscarDirectorioParcial: buscarDirectorioParcial,
+  compartirArchivos:compartirArchivos
 };

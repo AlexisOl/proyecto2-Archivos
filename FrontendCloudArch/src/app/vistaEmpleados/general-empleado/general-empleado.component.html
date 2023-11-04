@@ -152,7 +152,8 @@ class="min-h-full max-w-7xl mx-auto border-x">
                       <button mat-raised-button color="primary" style="width: 60%; margin-right: 5px; height: 95%;" (click)="actualizarArchivoModal(archivo)">
                           Ver Elemento
                       </button>
-                      <button class="btn btn-primary text-center" style="width: 60%; margin-left: 5px;">
+                      <button class="btn btn-primary text-center" style="width: 60%; margin-left: 5px;"
+                      (click)="compartirArchivoModal(archivo)">
                           Compartir Archivo
                       </button>
                   </div>
@@ -206,7 +207,9 @@ class="min-h-full max-w-7xl mx-auto border-x">
                 (click)="copiarCarpeta(carpetaIndividual)">
                   Copiar
                 </button>
-                <button class="btn btn-warning" style="margin-left: 10px;">
+                <button class="btn btn-warning" style="margin-left: 10px;"
+                (click)="moverCarpetaModal(carpetaIndividual)"
+                >
                   Mover
                 </button>
                 <button class="btn btn-danger" style="margin-left: 10px;"

@@ -20,6 +20,7 @@ rutas.post('/copiarArchivo', archivoControlador.copiarArchivo);
 rutas.delete('/eliminarArchivo', archivoControlador.eliminarArchivo);
 rutas.put('/moverArchivo', archivoControlador.moverArchivo);
 rutas.get('/buscarDirectoriosParecidos', archivoControlador.buscarDirectorioParcial);
+rutas.post('/compartirArchivo', archivoControlador.compartirArchivos);
 
 
 //carpetas
@@ -29,6 +30,9 @@ rutas.get('/obtenerArchivosDirectorio', carpetasControlador.obtenArchivosDirecto
 rutas.get('/obtenerCarpetasDirectorio', carpetasControlador.obtenerCarpetasDirectorio);
 rutas.post('/copiarCarpeta', carpetasControlador.copiarCarpetas);
 rutas.delete('/eliminarCarpeta', carpetasControlador.eliminarCarpetas);
+
+rutas.put('/moverCarpetas', carpetasControlador.moverCarpeta);
+
 
 
 
