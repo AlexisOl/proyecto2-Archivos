@@ -240,7 +240,7 @@ const compartirArchivos = async (req, res) => {
   const seconds = now.getSeconds(); 
   const formattedTime = `${hours}:${minutes}:${seconds}`;
   const buscarUsuario = await user.findOne({nombre: nombre});
-
+  console.log("fecha->"+String(now)+typeof String(now),"hora->"+formattedTime+ typeof formattedTime);
   if(buscarUsuario) {
     const insertarArchivo = new archivo({
       nombre: archivosPeticion.nombre,
@@ -250,13 +250,41 @@ const compartirArchivos = async (req, res) => {
       usuario: nombre,
       tipo: "compartido",
       usuarioOriginal: archivosPeticion.usuario,
-      fecha: now,
-      hora: formattedTime
+      fecha: String(now),
+     hora: formattedTime
     });
   
     const nuevoArchivo = await insertarArchivo.save();
     res.json(nuevoArchivo);
   }
+}
+
+//funcion para ver los archivos compartidos
+const verArchivoCompartido= async(req, res) => {
+  const {usuario, ubicacion} = req.query;
+  const valorBuscar = "compartido";
+
+  const obtenerArchivos = await archivo.find({tipo:valorBuscar, usuario: usuario});
+  console.log(obtenerArchivos);
+  if(obtenerArchivos) {
+    res.json(obtenerArchivos);
+  } else {
+    res.json({error: "errores"})
+  }
+};
+
+//eliminar archivo compartido
+const eliminarArchivoCompartido = async(req, res) => {
+  const {usuario, archivoId} = req.query;
+
+
+  const eliminarArchivoPeticion = await archivo.findByIdAndDelete(
+    {_id: archivoId}
+  );
+  if (!eliminarArchivoPeticion) {
+    res.json({error:"error no se puede eliminar"})
+  }
+
 }
 
 
@@ -269,5 +297,7 @@ module.exports = {
   verPapeleraGeneral: verPapeleraGeneral,
   moverArchivo: moverArchivo,
   buscarDirectorioParcial: buscarDirectorioParcial,
-  compartirArchivos:compartirArchivos
+  compartirArchivos:compartirArchivos,
+  verArchivoCompartido: verArchivoCompartido,
+  eliminarArchivoCompartido: eliminarArchivoCompartido
 };

@@ -6,4 +6,7 @@ export class archivos {
   usuario!:string|undefined
   cantidadCopiado!:string
   tipo!:string
+  usuarioOriginal!:string
+  fecha!:string
+  hora!:string
 }

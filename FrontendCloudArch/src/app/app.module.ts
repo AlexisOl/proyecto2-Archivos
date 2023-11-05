@@ -35,6 +35,7 @@ import { DeterminacionUbicacionComponent } from './vistaEmpleados/determinacion-
 import {MatTableModule} from '@angular/material/table';
 import { MensajeErrorComponent } from './vistaEmpleados/mensaje-error/mensaje-error.component';
 import { CompartirArchivoComponent } from './vistaEmpleados/compartir-archivo/compartir-archivo.component';
+import { VerArchivosCompartidosComponent } from './vistaEmpleados/ver-archivos-compartidos/ver-archivos-compartidos.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +56,8 @@ import { CompartirArchivoComponent } from './vistaEmpleados/compartir-archivo/co
     CambioPasswordComponent,
     DeterminacionUbicacionComponent,
     MensajeErrorComponent,
-    CompartirArchivoComponent
+    CompartirArchivoComponent,
+    VerArchivosCompartidosComponent
   ],
   imports: [
     BrowserModule,

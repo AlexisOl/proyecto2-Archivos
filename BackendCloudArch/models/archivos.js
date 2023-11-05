@@ -10,7 +10,10 @@ const archivos = new Schema(
     ubicacion: String,
     usuario:String,
     cantidadCopiado:String,
-    tipo:String
+    tipo:String,
+    usuarioOriginal: String,
+    fecha: String,
+    hora: String
   },
   {
     timestamps: false,

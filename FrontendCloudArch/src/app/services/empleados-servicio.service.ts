@@ -145,9 +145,14 @@ export class EmpleadosServicioService {
   }
 
     //ver la papelera GENERAL
-    public verCompartirGeneral(ubicacion:string):Observable<archivos> {
-      let compartir = "Compartir";
-      return this.http.get<archivos>(this.URL+"verCompartirGeneral?compartir="+compartir+"&ubicacion="+ubicacion);
+    public verCompartirGeneral(ubicacion:string, usuario:string|undefined):Observable<archivos> {
+      return this.http.get<archivos>(this.URL+"verCompartirGeneral?usuario="+usuario+"&ubicacion="+ubicacion);
     }
+
+    //funcion para eliminar el archivo compartido del usuario
+    public eliminarArchivoCompartido(usuario: string | undefined, archivoId: string): Observable<any> {
+      return this.http.delete<any>(this.URL + `eliminarArchivoCompartido?usuario=${usuario}&archivoId=${archivoId}`);
+    }
+
 
 }

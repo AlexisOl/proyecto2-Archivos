@@ -21,6 +21,9 @@ rutas.delete('/eliminarArchivo', archivoControlador.eliminarArchivo);
 rutas.put('/moverArchivo', archivoControlador.moverArchivo);
 rutas.get('/buscarDirectoriosParecidos', archivoControlador.buscarDirectorioParcial);
 rutas.post('/compartirArchivo', archivoControlador.compartirArchivos);
+rutas.get('/verCompartirGeneral', archivoControlador.verArchivoCompartido);
+rutas.delete('/eliminarArchivoCompartido', archivoControlador.eliminarArchivoCompartido);
+
 
 
 //carpetas

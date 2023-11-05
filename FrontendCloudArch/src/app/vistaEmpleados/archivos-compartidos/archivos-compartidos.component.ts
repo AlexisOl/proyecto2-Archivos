@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { archivos } from 'src/app/models/archivos';
 import { EmpleadosServicioService } from 'src/app/services/empleados-servicio.service';
+import { SesionServiceService } from 'src/app/services/sesion-service.service';
 import { UbicacionCompartidaService } from 'src/app/services/ubicacion-compartida.service';
+import { CompartirArchivoComponent } from '../compartir-archivo/compartir-archivo.component';
+import { VerArchivosCompartidosComponent } from '../ver-archivos-compartidos/ver-archivos-compartidos.component';
 
 @Component({
   selector: 'app-archivos-compartidos',
@@ -11,47 +16,36 @@ export class ArchivosCompartidosComponent implements OnInit{
   directorioActual: any;
   nombreDirectorio:string=""
 
-  archivosEliminado:any;
-  carpetasEliminado:any;
+  archivosObtenidos:any;
   todxsUser = [];
 
 
   constructor(private ubicacionCompartido: UbicacionCompartidaService,
-              private empleadosServicio: EmpleadosServicioService){}
+              private empleadosServicio: EmpleadosServicioService,
+              private sesion: SesionServiceService,
+              public dialog: MatDialog){}
 
   recargosGenerales() {
     this.recargoArchiovs();
-    this.recargoCarpetas();
   }
 
   recargoArchiovs() {
-
-  }
-
-  recargoCarpetas() {
-
-  }
-  // FUNCION DE REGRESO CON CARPETAS Y ARCHIVOS
-
-  retrocesoCarpetas(){
-    let nuevoDirectorio ="";
-    let valoresAlmacenados = this.directorioActual.split('/');
-    console.log(valoresAlmacenados);
-    if(valoresAlmacenados.length > 2) {
-      for (let i=0; i< valoresAlmacenados.length -2;i++) {
-        console.log("a"+valoresAlmacenados[i]);
-
-        nuevoDirectorio+=valoresAlmacenados[i]+"/";
+    this.empleadosServicio.verCompartirGeneral(this.directorioActual,this.sesion.getUsuario()?.nombre).subscribe(
+      (archivosCompartidos) => {
+        this.archivosObtenidos = archivosCompartidos;
       }
-      console.log(nuevoDirectorio);
-
-      this.directorioActual = nuevoDirectorio;
-      this.ubicacionCompartido.eliminarParteRuta();
-      //recargo de elementos
-      this.recargosGenerales();
-    }
-
+    );
   }
+
+  // FUNCION DE VISTA DE ARCHIVOS
+
+  verArchivosIndividualesModal(archivo:archivos) {
+      this.dialog.open(VerArchivosCompartidosComponent, {
+        width:"70%",
+        height:"650px",
+        data: {archivos:archivo}
+      })
+    }
 
   // FUNCION PARA AGREGAR CARPETAS AL MOVIMIENTO Y MOSTRAR
   // CARPETAS Y ARCHIVOS
@@ -71,6 +65,13 @@ export class ArchivosCompartidosComponent implements OnInit{
     this.directorioActual = textoFinalCarpetas;
     console.log("aa"+this.directorioActual);
     this.recargosGenerales();
+  }
+
+  // funcion para eliminar archivos
+  eliminarArchivoCompartido(archivo:string) {
+    this.empleadosServicio.eliminarArchivoCompartido(this.sesion.getUsuario()?.nombre,archivo ).subscribe(
+
+    );
   }
 
 
