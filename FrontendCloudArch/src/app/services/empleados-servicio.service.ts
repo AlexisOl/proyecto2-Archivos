@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { archivos } from '../models/archivos';
 import { carpetas } from '../models/carpetas';
+import { user } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -152,6 +153,17 @@ export class EmpleadosServicioService {
     //funcion para eliminar el archivo compartido del usuario
     public eliminarArchivoCompartido(usuario: string | undefined, archivoId: string): Observable<any> {
       return this.http.delete<any>(this.URL + `eliminarArchivoCompartido?usuario=${usuario}&archivoId=${archivoId}`);
+    }
+
+
+    //cambiar la contrasenia del user
+
+    public cambioPassword(usuario:user | null, nuevaPassword:string):Observable<user> {
+      const generarNuevoUser = {
+        usuarios: usuario,
+        nuevaPassword: nuevaPassword
+      }
+      return this.http.put<user>(this.URL+"cambioPassword",generarNuevoUser);
     }
 
 

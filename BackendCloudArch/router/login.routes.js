@@ -1,7 +1,7 @@
 const express = require('express')
 const controladorUsuario = require('../controller/userController.js')
 const archivoControlador = require('../controller/archivosController.js')
-const carpetasControlador = require('../controller/carpetaController.js')
+const carpetasControlador = require('../controller/carpetaController.js');
 
 const rutas = express.Router();
 
@@ -10,6 +10,8 @@ const rutas = express.Router();
 //rutas para usuarios
 rutas.get('/prueba', controladorUsuario.obtenerUsuario);
 rutas.post('/prueba', controladorUsuario.crearUsuario);
+rutas.put('/cambioPassword', controladorUsuario.cambioContrasenia);
+
 
 // empleados
 // archivos
@@ -43,6 +45,8 @@ rutas.put('/moverCarpetas', carpetasControlador.moverCarpeta);
 //-----------------------
 rutas.get('/verPapeleraGeneral', archivoControlador.verPapeleraGeneral);
 rutas.get('/verPapeleraCarpetasGeneral', carpetasControlador.verCarpetasEliminadas);
+rutas.post('/ingresoNuevoUser', controladorUsuario.crearTrabajadores);
+
 
 
 

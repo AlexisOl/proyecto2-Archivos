@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { archivos } from '../models/archivos';
 import { carpetas } from '../models/carpetas';
+import { user } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -26,4 +27,11 @@ export class AdminServicioService {
     return this.http.get<carpetas>(this.URL+"verPapeleraCarpetasGeneral?papelera="+papelera+"&ubicacion="+ubicacion);
   }
   //ver papelera de carpetas de un usuario especifico
+
+
+  // para crear nuevos usuarios
+
+  public crearNuevoUser(usuarios: user):Observable<user> {
+    return this.http.post<user>(this.URL+"ingresoNuevoUser",usuarios);
+  }
 }

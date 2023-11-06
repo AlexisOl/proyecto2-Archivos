@@ -39,10 +39,54 @@ const obtenerUsuario = async(req, res) => {
 };
 //funcion para cambiar la contrsasenia
 const cambioContrasenia = async(req, res) => {
+    const {usuarios, nuevaPassword} =req.body;
+    // ya con la info busco y actualizo 
+    try {
+        const peticionActualizacion = await usuario.findByIdAndUpdate({_id: usuarios._id}, 
+            {
+                password: nuevaPassword
+            })        
+        if(peticionActualizacion) {
+            res.json(peticionActualizacion)
+        } else {
+            res.json({error: "no se pudo"})
+        }
+    }catch(error) {
+        res.json({error: `error ${error}` })
+    }
 
 };
 
+//funcion para crear nuevos empleadores 
+const crearTrabajadores= async(req, res) => {
+    const {nombre, password, rol} = req.body;
+    console.log(req.body.generarNuevoUser);
+    console.log(nombre);
+
+    if (req.body) {
+        try {
+            const peticionNuevo = new usuario (
+                {nombre: nombre,
+                password: password,
+                rol: rol}
+        )         
+        const generarPeticion = await peticionNuevo.save();
+        if(generarPeticion) {
+            res.json(nuevoUsuario);
+        } else {
+            res.json({error: "no se pudo"})
+        }
+        } catch(error) {
+         res.json({error: `error ${error}` })
+        }
+    }
+
+};
+
+
 module.exports = {
     crearUsuario: crearUsuario,
-    obtenerUsuario:obtenerUsuario
+    obtenerUsuario:obtenerUsuario,
+    cambioContrasenia: cambioContrasenia,
+    crearTrabajadores: crearTrabajadores
 }
