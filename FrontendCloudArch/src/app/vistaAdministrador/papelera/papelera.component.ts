@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { archivos } from 'src/app/models/archivos';
 import { AdminServicioService } from 'src/app/services/admin-servicio.service';
 import { UbicacionPapeleraService } from 'src/app/services/ubicacion-papelera.service';
+import { VerArchivosCompartidosComponent } from 'src/app/vistaEmpleados/ver-archivos-compartidos/ver-archivos-compartidos.component';
 
 @Component({
   selector: 'app-papelera',
@@ -16,7 +19,18 @@ export class PapeleraComponent implements OnInit {
   todxsUser = [];
 
   constructor(private adminServicio: AdminServicioService,
-              private ubicacionPapelera: UbicacionPapeleraService) {}
+              private ubicacionPapelera: UbicacionPapeleraService,
+              public dialog: MatDialog) {}
+
+  //modales
+  verArchivosIndividualesModal(archivo:archivos) {
+    this.dialog.open(VerArchivosCompartidosComponent, {
+      width:"70%",
+      height:"650px",
+      data: {archivos:archivo}
+    })
+  }
+  // para mover
 
   recargosGenerales() {
     this.recargoArchiovs();

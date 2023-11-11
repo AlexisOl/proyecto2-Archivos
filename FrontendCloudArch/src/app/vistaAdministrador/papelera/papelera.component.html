@@ -76,7 +76,8 @@
                 <p>EXTENSION->{{archivo.extension}}</p>
               </div>
               <div class="justify-between flex" style="margin-bottom: 10px;">
-                <button mat-raised-button color="primary">
+                <button mat-raised-button color="primary"
+                (click)="verArchivosIndividualesModal(archivo)">
                   Ver Elemento
                 </button>
               </div>

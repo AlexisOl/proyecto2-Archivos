@@ -5,18 +5,26 @@ const user = require("../models/user.js");
 //funcion para ingreso de archiovs
 const crearArchivo = async (req, res) => {
   console.log(req.body);
+  // con esto entonces busco si es igual a algun archivo anterior  y en la misma ubicacion
+  const coincidencia = await archivo.findOne({nombre: req.body.nombre, extension: req.body.extension, ubicacion:req.body.ubicacion});
 
-  const insertarArchivo = new archivo({
-    nombre: req.body.nombre,
-    contenido: req.body.contenido,
-    extension: req.body.extension,
-    ubicacion: req.body.ubicacion,
-    usuario: req.body.usuario,
-    tipo: "raiz",
-  });
+  if(coincidencia) {
+    res.json({error: "ya existe no se puede crear"});
 
-  const nuevoArchivo = await insertarArchivo.save();
-  res.json(nuevoArchivo);
+  } else{
+    const insertarArchivo = new archivo({
+      nombre: req.body.nombre,
+      contenido: req.body.contenido,
+      extension: req.body.extension,
+      ubicacion: req.body.ubicacion,
+      usuario: req.body.usuario,
+      tipo: "raiz",
+    });
+  
+    const nuevoArchivo = await insertarArchivo.save();
+    res.json(nuevoArchivo);
+  }
+
 };
 
 // funcion para obtener de archivos
@@ -30,28 +38,35 @@ const obtenerArchivos = async (req, res) => {
 const editarArchivos = async (req, res) => {
   const { identificador, archivoEnviado } = req.body;
   console.log(archivoEnviado, identificador);
-  try {
-    const actualizar = await archivo.updateOne(
-      { _id: identificador },
-      {
-        $set: {
-          nombre: archivoEnviado.nombre,
-          contenido: archivoEnviado.contenido,
-          extension: archivoEnviado.extension,
+  const archivoExistente = await  archivo.findOne({nombre: archivoEnviado.nombre, extension: archivoEnviado.extension, ubicacion:archivoEnviado.ubicacion});
+  // que no sea si mismo
+  if(archivoExistente && archivoExistente._id !== identificador) {
+    res.json({error: "ya existe no se puede editar"});
+  } else {
+    try {
+      const actualizar = await archivo.updateOne(
+        { _id: identificador },
+        {
+          $set: {
+            nombre: archivoEnviado.nombre,
+            contenido: archivoEnviado.contenido,
+            extension: archivoEnviado.extension,
+          },
         },
-      },
-      { new: true }
-    );
-
-    if (actualizar) {
-      res.json(actualizar);
-    } else {
-      res.json({ error: "No se encontró el archivo" });
+        { new: true }
+      );
+  
+      if (actualizar) {
+        res.json(actualizar);
+      } else {
+        res.json({ error: "No se encontró el archivo" });
+      }
+    } catch (error) {
+      console.error("Error al actualizar el archivo:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
     }
-  } catch (error) {
-    console.error("Error al actualizar el archivo:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
   }
+
 };
 
 //copiar archivo ------------------------------
@@ -117,14 +132,17 @@ const copiarArchivo = async (req, res) => {
 const eliminarArchivo = async (req, res) => {
   const archivoEliminar = JSON.parse(req.query.archivoEliminar[1]);
   console.log(archivoEliminar._id, archivoEliminar.nombre);
-
+  // ver a que hora lo hace
+  const now = new Date(); 
   //busca el archivo en base al id
   //ahora solo modificarlo
   const mandarAPapelera = await archivo.updateOne(
     { _id: archivoEliminar._id },
     {
       $set: {
+        nombre:archivoEliminar.nombre+"_"+String(now)+"_"+archivoEliminar.usuario,
         tipo: "Papelera",
+        ubicacion:"papelera/"
       },
     },
     { new: true }
@@ -163,6 +181,7 @@ const moverArchivo = async (req, res) => {
   const verElementos = await archivo.find({
     ubicacion: ubicacion,
     nombre: archivos.nombre,
+    extension:archivos.extension
   });
 
   //generar la modificacion
@@ -243,7 +262,7 @@ const compartirArchivos = async (req, res) => {
   console.log("fecha->"+String(now)+typeof String(now),"hora->"+formattedTime+ typeof formattedTime);
   if(buscarUsuario) {
     const insertarArchivo = new archivo({
-      nombre: archivosPeticion.nombre,
+      nombre: archivosPeticion.nombre+"_"+String(now)+"_"+archivosPeticion.usuario,
       contenido: archivosPeticion.contenido,
       extension: archivosPeticion.extension,
       ubicacion: "compatido/",
