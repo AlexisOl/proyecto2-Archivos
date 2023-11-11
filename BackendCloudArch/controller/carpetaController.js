@@ -6,19 +6,26 @@ const carpertas = require('../models/carpertas.js')
 //funcion para ingreso de archiovs
 const creaCarpeta = async(req, res) => {
     console.log(req.body);
+    //VER QUE NO HAYAN CARPETAS IGUALES
+    const carpetasIguales= await carpertas.findOne({nombre: req.body.nombre, tipo: req.body.tipo, ubicacion:req.body.ubicacion});
 
-    const insertarArchivo = new carpertas (
-        {
-            nombre: req.body.nombre,
-            usuarioAsociado: req.body.usuario,
-            ubicacion: req.body.ubicacion,
-            tipo: req.body.tipo,
-            archivos : req.body.archivos
-        }
-    )
+    if (carpetasIguales) {
+        res.json({error: "no se puede ingresar"});
+    } else {
+        const insertarArchivo = new carpertas (
+            {
+                nombre: req.body.nombre,
+                usuarioAsociado: req.body.usuario,
+                ubicacion: req.body.ubicacion,
+                tipo: req.body.tipo,
+                archivos : req.body.archivos
+            }
+        )
+    
+        const nuevoArchivo = await insertarArchivo.save();
+        res.json(nuevoArchivo);
+    }
 
-    const nuevoArchivo = await insertarArchivo.save();
-    res.json(nuevoArchivo);
 };
 
 
@@ -95,10 +102,10 @@ const copiarCarpetas = async(req,res) => {
 
     let ubicacionInicialPartida = ubicacionInicial.split("/");
     
-    // traer todos los otras archivos 
-    const archivosTotales = await archivos.find();
+    // traer todos los otras archivos  SOLO PARA RAIZ 
+    const archivosTotales = await archivos.find({tipo: "raiz"});
     //traer todas las carpetas
-    const carpetasTotales = await carpertas.find();
+    const carpetasTotales = await carpertas.find({tipo: "raiz"});
 
     procesoParaCopiarArchivosDirectorios(archivosTotales,ubicacionInicialPartida,  ubicaciones,cantidadCopiaFinal, ubicacionesActulizadasArchivos);
     procesoParaCopiarCarpetasDirectorios(carpetasTotales, ubicacionInicialPartida,  ubicacionesCarpetas, cantidadCopiaFinal, ubicacionesActulizadasCarpetas)
@@ -316,6 +323,14 @@ const eliminarCarpetas= async(req, res) => {
     console.log(JSON.parse(req.query.carpetaEliminar[1]));
     console.log(req.query);
     const carpetaEliminar=JSON.parse(req.query.carpetaEliminar[1])
+    //valor solo para tener la fecha 
+    const tiempo =  Date.now();
+    const fechaInicial = new Date(tiempo);
+    const dias = fechaInicial.getDay();
+    const meses = fechaInicial.getMonth()+1;
+    const hora = fechaInicial.getHours();
+    const minutos = fechaInicial.getMinutes();
+    const fecha = `${dias}-${meses}-${hora}:${minutos}`
     //directorio desde donde debe de empezar las demas carpetas y archivos;
     let directorioParaDemasArchivos = carpetaEliminar.ubicacion+carpetaEliminar.nombre+"/";
     let archivosNuevos =[];
@@ -336,7 +351,9 @@ const eliminarCarpetas= async(req, res) => {
         {
             $set: {
                 tipo: "Papelera",
-                ubicacion:"papelera/"
+                ubicacion:"papelera/",
+                nombre:carpetaEliminar.nombre+String(fecha)
+
             }
         },
         { new: true }
@@ -348,8 +365,8 @@ const eliminarCarpetas= async(req, res) => {
         res.json({error:"no se puede eliminar"})
     }
     //llamo a las funciones
-    procesoParaEliminarArchivosDirectorios(archivosTotales,ubicacionInicialPartida,archivosNuevos,ubicacionesArchivos);
-    procesoParaEliminarCarpetasDirectorios(carpetasTotales,ubicacionInicialPartida,carpetasNuevas,ubicacionesCarpetas);
+    procesoParaEliminarArchivosDirectorios(archivosTotales,ubicacionInicialPartida,archivosNuevos,ubicacionesArchivos, fecha);
+    procesoParaEliminarCarpetasDirectorios(carpetasTotales,ubicacionInicialPartida,carpetasNuevas,ubicacionesCarpetas, fecha);
     //solo para ver
     console.log(archivosNuevos);
     console.log(ubicacionesArchivos);
@@ -405,7 +422,7 @@ for (let i = 0; i < carpetasNuevas.length; i++) {
 
 // funcion de como obtengo cada archivo
 async function procesoParaEliminarArchivosDirectorios(archivosTotales,ubicacionInicialPartida, ubicaciones,
-     ubicacionesActulizadasArchivos) {
+     ubicacionesActulizadasArchivos, fecha) {
     archivosTotales.forEach(
         
         (archivoEspecifico) => {
@@ -437,8 +454,21 @@ async function procesoParaEliminarArchivosDirectorios(archivosTotales,ubicacionI
                 console.log(nuevoDirectorio+"------------------------------------------------");
                 let prueba = archivoEspecifico.ubicacion.split(parteModificadaDirectorio)
                 console.log("a ver si jala"+prueba);
+
+                let directorioFinal = prueba[1].split("/");
+                let valorFinal = "";
+                // primero
+                // ahora ciclo para los demas 
+                    for (let index = 0; index < directorioFinal.length-1; index++) {
+                        if(index===0) {
+                            valorFinal+=directorioFinal[0]+String(fecha)+"/";
+                        } else {
+                            valorFinal += directorioFinal[index]+"/";
+
+                        }
+                    }
                 // SOLO QUEDA UNIR DIRECTORIOS NUEVOS
-                let directorioModificadoUnificado = nuevoValor+prueba[1];
+                let directorioModificadoUnificado = nuevoValor+valorFinal;
                 console.log("actualizado*************** "+directorioModificadoUnificado);
                 ubicacionesActulizadasArchivos.push(directorioModificadoUnificado);
             }
@@ -447,7 +477,7 @@ async function procesoParaEliminarArchivosDirectorios(archivosTotales,ubicacionI
 }
 
 async function procesoParaEliminarCarpetasDirectorios(carpetasTotales, ubicacionInicialPartida, ubicaciones,
-    ubicacionesActulizadasCarpetas) {
+    ubicacionesActulizadasCarpetas, fecha) {
     carpetasTotales.forEach(
         (carpetasEspecificas) => {
             let nuevoDirectorio = "";
@@ -479,7 +509,20 @@ async function procesoParaEliminarCarpetasDirectorios(carpetasTotales, ubicacion
                 console.log(carpetasTotales+"++++++++++++++++++++++++++++++");
                 let prueba = carpetasEspecificas.ubicacion.split(parteModificadaDirectorio)
                 // SOLO QUEDA UNIR DIRECTORIOS NUEVOS
-                let directorioModificadoUnificado = nuevoValor+prueba[1];
+                // volver a hacer un split
+                let directorioFinal = prueba[1].split("/");
+                let valorFinal = "";
+                // primero
+                // ahora ciclo para los demas 
+                    for (let index = 0; index < directorioFinal.length-1; index++) {
+                        if(index===0) {
+                            valorFinal+=directorioFinal[0]+String(fecha)+"/";
+                        } else {
+                            valorFinal += directorioFinal[index]+"/";
+
+                        }
+                    }
+                let directorioModificadoUnificado = nuevoValor+valorFinal;
                 console.log("actualizado+++++++++++++++++++ "+directorioModificadoUnificado);
                 ubicacionesActulizadasCarpetas.push(directorioModificadoUnificado);
             }
@@ -505,6 +548,16 @@ const verCarpetasEliminadas = async(req, res) => {
 //funcion para mover carpetas y todos sus archivos 
 const moverCarpeta = async (req, res) => {
     const { ubicacion, carpetaMover } = req.body;
+//busco si ya hay algo ?
+    const carpetasExistentes = await carpertas.findOne({
+        nombre: carpetaMover.nombre,
+        ubicacion: ubicacion,
+        tipo: "raiz"
+    })
+    if (carpetasExistentes) {
+        res.json({error:"no sepude mover"})
+    } else {
+
     console.log(carpetaMover);
     console.log(ubicacion);
 
@@ -613,11 +666,10 @@ const moverCarpeta = async (req, res) => {
             res.json(error);
         }
         contadorCarpetaElementos++;
-    }
+        }
     
-
-};
-
+    };
+}
 
 //FUNCIONES DE FORMA ASINCRONA PARA CADA ELEMENTOS 
 async function obtenerArchivosUbicacionesModificadas(archivosTotales,ubicacionInicialPartida, ubicaciones,

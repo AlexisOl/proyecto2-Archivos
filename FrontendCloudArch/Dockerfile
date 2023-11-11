@@ -1,20 +1,19 @@
-# Use an official Node runtime as a parent image
-FROM node:18
+# Establecer la etapa de construcción
+FROM node:18 AS build
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install app dependencies
+WORKDIR /usr/local/app
+COPY ./ /usr/local/app
 RUN npm install
+RUN npm run build
 
-# Bundle app source
-COPY . .
 
-# Make port 4200 available to the world outside this container
-EXPOSE 4200
+# Stage 2:
 
-# Define the command to run your app
-CMD ["npm", "start"]
+# Use official nginx image as the base image
+FROM nginx:alpine
+# Copy the build output to replace the default nginx contents.
+COPY --from=build /usr/local/app/dist/frontend-cloud-arch /usr/share/nginx/html
+COPY --from=build /usr/local/app/nginx.conf /etc/nginx/conf.d/default.conf
+
+
+EXPOSE 42001
