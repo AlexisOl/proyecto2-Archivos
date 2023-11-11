@@ -9,6 +9,7 @@ const rutas = express.Router();
 
 //rutas para usuarios
 rutas.get('/prueba', controladorUsuario.obtenerUsuario);
+rutas.get('/pruebaNuevo', controladorUsuario.obtenerUsuarioDocker);
 rutas.post('/prueba', controladorUsuario.crearUsuario);
 rutas.put('/cambioPassword', controladorUsuario.cambioContrasenia);
 

@@ -61,6 +61,7 @@ const cambioContrasenia = async(req, res) => {
 const crearTrabajadores= async(req, res) => {
     const {nombre, password, rol} = req.body;
     console.log(req.body.generarNuevoUser);
+    console.log(req.body);
     console.log(nombre);
 
     if (req.body) {
@@ -72,6 +73,7 @@ const crearTrabajadores= async(req, res) => {
         )         
         const generarPeticion = await peticionNuevo.save();
         if(generarPeticion) {
+            console.log("SI SE PUDO");
             res.json(nuevoUsuario);
         } else {
             res.json({error: "no se pudo"})
@@ -83,10 +85,17 @@ const crearTrabajadores= async(req, res) => {
 
 };
 
+const obtenerUsuarioDocker = async(req, res) => {
+  
+    const dockerUsuario = await usuario.find();
+    res.json(dockerUsuario);
+};
+
 
 module.exports = {
     crearUsuario: crearUsuario,
     obtenerUsuario:obtenerUsuario,
     cambioContrasenia: cambioContrasenia,
-    crearTrabajadores: crearTrabajadores
+    crearTrabajadores: crearTrabajadores,
+    obtenerUsuarioDocker: obtenerUsuarioDocker
 }

@@ -12,11 +12,13 @@ servidor.use(cors());
 
 async function conexionDB() {
     try {
-        const database = await mongoose.connect('mongodb://localhost:27017/biblioteca', {
-            useNewUrlParser:true,
-            useUnifiedTopology:true,
-            family:4
+        //cambio en base al docker 
+        const database = await mongoose.connect('mongodb://database:27017/biblioteca', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            family: 4
         });
+        
         console.log('conectado', database.connection.name, database.connection.collections);
     } catch(error) {
         console.log(error);
@@ -26,13 +28,7 @@ async function conexionDB() {
 //inicio de la conexion
 conexionDB();
 
-const prueba2 = async (req,res)=>{
-    console.log(req.body.cui);
-    const busqueda = await Categorias.find();   
-        console.log(busqueda);
-        res.json(busqueda);
-    
-}
+
 //envio de json
 servidor.use(express.json());
 //rutas
