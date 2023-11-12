@@ -159,11 +159,12 @@ const eliminarArchivo = async (req, res) => {
 
 ///// PARA VER ARCHIVOS EN PAPELERA
 const verPapeleraGeneral = async (req, res) => {
-  const { papelera, ubicacion } = req.query;
+  const { papelera, ubicacion, usuario } = req.query;
 
   const peticionPapelera = await archivo.find({
     tipo: papelera,
     ubicacion: ubicacion,
+    usuario: usuario
   });
 
   if (peticionPapelera) {
@@ -215,7 +216,7 @@ const buscarDirectorioParcial = async (req, res) => {
 
   const peticionBuscar = carpertas
     .find(
-      { ubicacion: new RegExp(ubicacion) },
+      { ubicacion: new RegExp(ubicacion), tipo:"raiz" },
       { ubicacion: 1, _id: 0, nombre: 1 }
     )
     .sort({ ubicacion: 1 });

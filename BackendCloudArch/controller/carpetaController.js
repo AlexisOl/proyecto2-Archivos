@@ -40,7 +40,7 @@ const obtenCarpetas = async(req, res) => {
 // funcion para obtener de archivos en base a directorio
 const obtenArchivosDirectorio = async(req, res) => {
     const {ubicacion, usuario} = req.query;
-    console.log(ubicacion);
+   // console.log(ubicacion);
     //archivos
         //busca ubicacion, usuario y tipo de archivo
     const archivosCarpeta = await archivos.find({ubicacion:ubicacion, usuario:usuario, tipo:"raiz"});
@@ -533,9 +533,9 @@ async function procesoParaEliminarCarpetasDirectorios(carpetasTotales, ubicacion
 /// funcion para ver carpetas eliminadas
 
 const verCarpetasEliminadas = async(req, res) => {
-    const {papelera, ubicacion} = req.query;
+    const {papelera, ubicacion, usuario} = req.query;
 
-    const peticionCarpetas = await carpertas.find({tipo:papelera, ubicacion:ubicacion});
+    const peticionCarpetas = await carpertas.find({tipo:papelera, ubicacion:ubicacion, usuarioAsociado: usuario});
 
     if(peticionCarpetas) {
         res.json(peticionCarpetas);
@@ -555,11 +555,11 @@ const moverCarpeta = async (req, res) => {
         tipo: "raiz"
     })
     if (carpetasExistentes) {
-        res.json({error:"no sepude mover"})
+     return  res.json({error:"no sepude mover"})
     } else {
 
     console.log(carpetaMover);
-    console.log(ubicacion);
+   // console.log(ubicacion);
 
     let archivosObtenidos =[];
     let carpetasObtenidas = [];
@@ -668,7 +668,7 @@ const moverCarpeta = async (req, res) => {
         contadorCarpetaElementos++;
         }
     
-    };
+    }
 }
 
 //FUNCIONES DE FORMA ASINCRONA PARA CADA ELEMENTOS 

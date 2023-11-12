@@ -32,6 +32,21 @@
 
     </div>
     <div class="col-md-6">
+      <label for="usuario" class="mt-5 d-flex justify-content-center">
+        Usuario Actual
+      </label>
+      <input
+        type="text"
+        class="form-control mt-2"
+        name="directorioActual"
+        [(ngModel)]="usuarioActual"
+        readonly
+      />
+    </div>
+    <div class="col-md-6">
+  <button mat-raised-button color="warn" (click)=" QuitarUsuario()">Quitar Usuario</button>>
+    </div>
+    <div class="col-md-6">
       <label for="nombre" class="mt-5 d-flex justify-content-center">
         Directorio Actual
       </label>
@@ -50,8 +65,38 @@
 </div>
   <hr/>
 
+
+<!--GENERO UN NG IF-->
+<div class="container" *ngIf="!hayUsuario; then vistaUsuarios; else verPapelera;">
+
+
+</div>
+<ng-template #vistaUsuarios>
+  <table class="tabla table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Rol</th>
+        <th>Seleccionar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of todxsUser">
+        <td>{{ user.nombre }}</td>
+        <td>{{ user.rol }}</td>
+        <td><button mat-raised-button color="primary" (click)="seleccionarUsuarioPapelera(user)">Seleccion</button></td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+
+
+
+
+
 <!--COMIENZO ARCHIVOS-->
-<div class="container">
+
+<ng-template #verPapelera>
   <div class="row">
     <div class="cl-md-10">
       <div class="titulo">
@@ -117,4 +162,5 @@
     </div>
 
       </div>
-    </div>
+    </ng-template>
+

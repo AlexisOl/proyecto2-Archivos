@@ -2,7 +2,7 @@ const { Schema, model } = require ("mongoose");
 
 //creacion del schema
 
-const prueba = new Schema(
+const usuarios = new Schema(
   {
     nombre: String,
     password: String,
@@ -14,4 +14,4 @@ const prueba = new Schema(
   }
 );
 
-module.exports = model("Prueba", prueba);
+module.exports = model("usuarios", usuarios);

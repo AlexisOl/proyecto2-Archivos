@@ -47,6 +47,7 @@ rutas.put('/moverCarpetas', carpetasControlador.moverCarpeta);
 rutas.get('/verPapeleraGeneral', archivoControlador.verPapeleraGeneral);
 rutas.get('/verPapeleraCarpetasGeneral', carpetasControlador.verCarpetasEliminadas);
 rutas.post('/ingresoNuevoUser', controladorUsuario.crearTrabajadores);
+rutas.get('/verTodosUsuarios', controladorUsuario.obtenerUsuarioDocker);
 
 
 

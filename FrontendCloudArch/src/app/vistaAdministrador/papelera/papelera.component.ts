@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { archivos } from 'src/app/models/archivos';
+import { user } from 'src/app/models/user';
 import { AdminServicioService } from 'src/app/services/admin-servicio.service';
 import { UbicacionPapeleraService } from 'src/app/services/ubicacion-papelera.service';
 import { VerArchivosCompartidosComponent } from 'src/app/vistaEmpleados/ver-archivos-compartidos/ver-archivos-compartidos.component';
@@ -13,14 +14,33 @@ import { VerArchivosCompartidosComponent } from 'src/app/vistaEmpleados/ver-arch
 export class PapeleraComponent implements OnInit {
   directorioActual: any;
   nombreDirectorio:string=""
+  usuarioActual:any
+  hayUsuario:boolean = false;
 
   archivosEliminado:any;
   carpetasEliminado:any;
-  todxsUser = [];
+  todxsUser :any;
+
 
   constructor(private adminServicio: AdminServicioService,
               private ubicacionPapelera: UbicacionPapeleraService,
               public dialog: MatDialog) {}
+
+
+  //seleccion de usuario
+
+  seleccionarUsuarioPapelera(usuario:user){
+    this.usuarioActual = usuario.nombre;
+    if (this.usuarioActual) {
+      this.hayUsuario= true
+      this.recargosGenerales();
+    }
+  }
+  QuitarUsuario(){
+    this.usuarioActual="";
+    this.hayUsuario=false;
+    this.recargosGenerales();
+  }
 
   //modales
   verArchivosIndividualesModal(archivo:archivos) {
@@ -39,7 +59,7 @@ export class PapeleraComponent implements OnInit {
 
   recargoArchiovs() {
     this.adminServicio
-      .verPapeleraGeneral(this.directorioActual)
+      .verPapeleraGeneral(this.directorioActual, this.usuarioActual)
       .subscribe((archivosEliminados) => {
         this.archivosEliminado = archivosEliminados;
       });
@@ -47,7 +67,7 @@ export class PapeleraComponent implements OnInit {
 
   recargoCarpetas() {
     this.adminServicio
-      .verPapeleraCarpetasGeneral(this.directorioActual)
+      .verPapeleraCarpetasGeneral(this.directorioActual, this.usuarioActual)
       .subscribe((carpetasEliminados) => {
         this.carpetasEliminado = carpetasEliminados;
       });
@@ -100,12 +120,19 @@ export class PapeleraComponent implements OnInit {
   ngOnInit() {
        // ver ruta de usaurio
         // ver ruta de usaurio
-
+      this.usuarioActual = "";
        const ruta = this.ubicacionPapelera.getRuta();
        this.nombreDirectorio = ruta+"/";
        console.log(this.nombreDirectorio);
 
        this.directorioActual = this.nombreDirectorio;
+
+       //trae todos los usuarios
+       this.adminServicio.verUsuariosGenerales().subscribe(
+        usuariosG => {
+          this.todxsUser=usuariosG;
+        }
+       )
 
     this.recargosGenerales();
   }
